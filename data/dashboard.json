@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-28T18:27+09:00",
+  "updated_at": "2026-07-28T21:14+09:00",
   "market": {
     "korea": {
       "status": "하락 우위",
@@ -29,12 +29,44 @@
           "score": 0,
           "status": "강한 하락"
         }
-      ]
+      ],
+      "valuation": {
+        "available": true,
+        "generated_at": "2026-07-28T21:13:52.325981+09:00",
+        "markets": {
+          "kospi200": {
+            "index_key": "kospi200",
+            "kis_forward_per": 4.75,
+            "kis_coverage_pct": 74.56,
+            "external_forward_per": null,
+            "external_as_of": null,
+            "external_source": null,
+            "similarity_pct": null,
+            "final_forward_per": 4.75,
+            "method": "KIS_ONLY",
+            "confidence": "보통",
+            "note": "외부 12M Forward PER 미등록"
+          },
+          "kosdaq150": {
+            "index_key": "kosdaq150",
+            "kis_forward_per": 26.25,
+            "kis_coverage_pct": 22.97,
+            "external_forward_per": null,
+            "external_as_of": null,
+            "external_source": null,
+            "similarity_pct": null,
+            "final_forward_per": null,
+            "method": "UNAVAILABLE",
+            "confidence": "낮음",
+            "note": "외부 12M Forward PER 미등록"
+          }
+        }
+      }
     }
   },
   "coming_soon": {
     "united_states": true,
-    "valuation": true,
+    "valuation": false,
     "sentiment": true,
     "kodex_top5": true
   }

@@ -62,13 +62,14 @@
       font-size: 13px;
       text-align: right;
     }
-    .hero-grid, .index-grid, .future-grid {
+    .hero-grid, .index-grid, .valuation-grid, .future-grid {
       display: grid;
       gap: 16px;
     }
     .hero-grid { grid-template-columns: 1.35fr .65fr; }
     .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
-    .future-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 16px; }
+    .valuation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
+    .future-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 16px; }
     .card {
       background: linear-gradient(145deg, rgba(18, 36, 58, .94), rgba(11, 27, 46, .94));
       border: 1px solid var(--line);
@@ -136,6 +137,10 @@
     }
     .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; }
     .index-card { padding: 24px; }
+    .valuation-card { padding: 24px; }
+    .valuation-title { margin: 5px 0 0; font-size: 22px; }
+    .valuation-value { margin-top: 22px; font-size: 34px; font-weight: 800; letter-spacing: -.04em; }
+    .valuation-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
     .index-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
     .index-name { margin: 5px 0 0; font-size: 25px; }
     .badge {
@@ -179,7 +184,7 @@
       .shell { width: min(100% - 22px, 680px); padding-top: 24px; }
       header { align-items: flex-start; flex-direction: column; }
       .updated { text-align: left; }
-      .hero-grid, .index-grid { grid-template-columns: 1fr; }
+      .hero-grid, .index-grid, .valuation-grid { grid-template-columns: 1fr; }
       .future-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero-main { align-items: flex-start; }
       .score-ring { width: 108px; }
@@ -240,8 +245,9 @@
 
     <section class="index-grid" id="index-grid" aria-label="시장별 추세"></section>
 
+    <section class="valuation-grid" id="valuation-grid" aria-label="대표지수 밸류에이션"></section>
+
     <section class="future-grid" aria-label="추가 예정 분석">
-      <article class="card future-card"><div class="future-icon">◫</div><h3>밸류에이션</h3><p>PER·PBR·이익수익률을 추가할 예정입니다.</p></article>
       <article class="card future-card"><div class="future-icon">◉</div><h3>센티먼트</h3><p>수급·신용·변동성 신호를 추가할 예정입니다.</p></article>
       <article class="card future-card"><div class="future-icon">◇</div><h3>미국시장</h3><p>미국 추세와 금융환경을 추가할 예정입니다.</p></article>
       <article class="card future-card"><div class="future-icon">★</div><h3>KODEX TOP 5</h3><p>시장환경에 맞는 ETF 순위를 추가할 예정입니다.</p></article>
@@ -273,6 +279,42 @@
         </article>`;
     }
 
+    const valuationNames = {
+      kospi200: "KOSPI 200",
+      kosdaq150: "KOSDAQ 150"
+    };
+    const methodNames = {
+      KIS_ONLY: "KIS 추정값",
+      EXTERNAL_PRIMARY: "외부 컨센서스 우선",
+      BLENDED_50_50_EARNINGS_YIELD: "KIS·외부 5:5 혼합",
+      UNAVAILABLE: "확정 보류"
+    };
+
+    function valueOrDash(value, suffix = "") {
+      return value === null || value === undefined ? "—" : `${fmt.format(value)}${suffix}`;
+    }
+
+    function valuationCard([key, item]) {
+      const finalText = item.final_forward_per === null
+        ? "확정 보류"
+        : `${fmt.format(item.final_forward_per)}배`;
+      return `
+        <article class="card valuation-card">
+          <div class="index-head">
+            <div><span class="label">12M Forward PER</span><h2 class="valuation-title">${valuationNames[key] || key}</h2></div>
+            <span class="badge">${item.confidence} · ${methodNames[item.method] || item.method}</span>
+          </div>
+          <div class="valuation-value">${finalText}</div>
+          <div class="metrics">
+            <div class="metric"><span class="label">KIS 추정</span><strong>${valueOrDash(item.kis_forward_per, "배")}</strong></div>
+            <div class="metric"><span class="label">외부 컨센서스</span><strong>${valueOrDash(item.external_forward_per, "배")}</strong></div>
+            <div class="metric"><span class="label">KIS 유효 비중</span><strong>${valueOrDash(item.kis_coverage_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">두 값의 유사도</span><strong>${valueOrDash(item.similarity_pct, "%")}</strong></div>
+          </div>
+          <p class="valuation-note">${item.note}${item.external_source ? ` · ${item.external_source} (${item.external_as_of})` : ""}</p>
+        </article>`;
+    }
+
     fetch("./data/dashboard.json", { cache: "no-store" })
       .then(response => {
         if (!response.ok) throw new Error("대시보드 데이터가 아직 생성되지 않았습니다.");
@@ -291,6 +333,10 @@
           `KOSPI와 KOSDAQ의 이동평균 및 3·6개월 수익률을 종합한 추세 점수입니다.`;
         document.getElementById("index-grid").innerHTML =
           korea.indexes.map(indexCard).join("");
+        const valuation = korea.valuation || {};
+        const valuationItems = Object.entries(valuation.markets || {});
+        document.getElementById("valuation-grid").innerHTML =
+          valuationItems.map(valuationCard).join("");
       })
       .catch(error => {
         const box = document.getElementById("error");
