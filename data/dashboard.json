@@ -1,0 +1,41 @@
+{
+  "updated_at": "2026-07-28T18:11+09:00",
+  "market": {
+    "korea": {
+      "status": "하락 우위",
+      "trend_score": 32,
+      "indexes": [
+        {
+          "name": "KOSPI",
+          "code": "0001",
+          "trading_date": "20260728",
+          "close": 6023.66,
+          "moving_average_50": 7841.9,
+          "moving_average_200": 5696.52,
+          "return_3_months_pct": -6.98,
+          "return_6_months_pct": 23.29,
+          "score": 65,
+          "status": "상승 우위"
+        },
+        {
+          "name": "KOSDAQ",
+          "code": "1001",
+          "trading_date": "20260728",
+          "close": 705.85,
+          "moving_average_50": 934.85,
+          "moving_average_200": 999.58,
+          "return_3_months_pct": -39.89,
+          "return_6_months_pct": -27.71,
+          "score": 0,
+          "status": "강한 하락"
+        }
+      ]
+    }
+  },
+  "coming_soon": {
+    "united_states": true,
+    "valuation": true,
+    "sentiment": true,
+    "kodex_top5": true
+  }
+}
