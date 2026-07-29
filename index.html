@@ -330,10 +330,12 @@
           <div class="metrics">
             <div class="metric"><span class="label">상승 종목 비율</span><strong>${valueOrDash(item.advance_ratio_pct, "%")}</strong></div>
             <div class="metric"><span class="label">시장 폭 점수</span><strong>${valueOrDash(item.breadth_score, "점")}</strong></div>
-            <div class="metric"><span class="label">외국인+기관 순매수</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
+            <div class="metric"><span class="label">전일 수급 비율</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
+            <div class="metric"><span class="label">5일 평균 수급</span><strong>${signed(item.smart_money_5d_ratio_pct)}</strong></div>
+            <div class="metric"><span class="label">20일 평균 수급</span><strong>${signed(item.smart_money_20d_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">전일 등락률</span><strong>${signed(item.daily_return_pct)}</strong></div>
           </div>
-          <p class="valuation-note">기준일 ${item.trading_date} · 신뢰도 ${item.confidence}</p>
+          <p class="valuation-note">기준일 ${item.trading_date} · 수급 ${item.flow_history_days}거래일 사용 · 신뢰도 ${item.confidence}</p>
         </article>`;
     }
 
