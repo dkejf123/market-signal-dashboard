@@ -1,56 +1,56 @@
 {
-  "updated_at": "2026-07-29T10:03+09:00",
+  "updated_at": "2026-07-29T18:36+09:00",
   "market": {
     "korea": {
       "status": "하락 우위",
-      "trend_score": 32,
+      "trend_score": 20,
       "indexes": [
         {
           "name": "KOSPI",
           "code": "0001",
           "trading_date": "20260729",
-          "close": 6113.21,
-          "moving_average_50": 7814.31,
-          "moving_average_200": 5709.93,
-          "return_3_months_pct": -5.6,
-          "return_6_months_pct": 24.51,
-          "score": 65,
-          "status": "상승 우위"
+          "close": 5663.24,
+          "moving_average_50": 7805.31,
+          "moving_average_200": 5707.68,
+          "return_3_months_pct": -12.55,
+          "return_6_months_pct": 15.34,
+          "score": 40,
+          "status": "중립"
         },
         {
           "name": "KOSDAQ",
           "code": "1001",
           "trading_date": "20260729",
-          "close": 696.98,
-          "moving_average_50": 926.2,
-          "moving_average_200": 998.83,
-          "return_3_months_pct": -42.1,
-          "return_6_months_pct": -26.73,
+          "close": 662.68,
+          "moving_average_50": 925.51,
+          "moving_average_200": 998.66,
+          "return_3_months_pct": -44.95,
+          "return_6_months_pct": -30.34,
           "score": 0,
           "status": "강한 하락"
         }
       ],
       "valuation": {
         "available": true,
-        "generated_at": "2026-07-29T10:01:40.961931+09:00",
+        "generated_at": "2026-07-29T18:35:09.186373+09:00",
         "markets": {
           "kospi200": {
             "index_key": "kospi200",
-            "kis_forward_per": 4.81,
-            "kis_coverage_pct": 74.96,
+            "kis_forward_per": 4.42,
+            "kis_coverage_pct": 74.35,
             "external_forward_per": null,
             "external_as_of": null,
             "external_source": null,
             "similarity_pct": null,
-            "final_forward_per": 4.81,
+            "final_forward_per": 4.42,
             "method": "KIS_ONLY",
             "confidence": "보통",
             "note": "외부 12M Forward PER 미등록"
           },
           "kosdaq150": {
             "index_key": "kosdaq150",
-            "kis_forward_per": 27.71,
-            "kis_coverage_pct": 23.17,
+            "kis_forward_per": 24.48,
+            "kis_coverage_pct": 22.95,
             "external_forward_per": null,
             "external_as_of": null,
             "external_source": null,
@@ -64,7 +64,7 @@
       },
       "sentiment": {
         "available": true,
-        "generated_at": "2026-07-29T10:01:52.832327+09:00",
+        "generated_at": "2026-07-29T18:35:22.447487+09:00",
         "overall_score": 8,
         "overall_status": "극단적 불안",
         "markets": [
