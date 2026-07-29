@@ -62,14 +62,15 @@
       font-size: 13px;
       text-align: right;
     }
-    .hero-grid, .index-grid, .valuation-grid, .future-grid {
+    .hero-grid, .index-grid, .valuation-grid, .sentiment-grid, .future-grid {
       display: grid;
       gap: 16px;
     }
     .hero-grid { grid-template-columns: 1.35fr .65fr; }
     .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
     .valuation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
-    .future-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 16px; }
+    .sentiment-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
+    .future-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
     .card {
       background: linear-gradient(145deg, rgba(18, 36, 58, .94), rgba(11, 27, 46, .94));
       border: 1px solid var(--line);
@@ -141,6 +142,7 @@
     .valuation-title { margin: 5px 0 0; font-size: 22px; }
     .valuation-value { margin-top: 22px; font-size: 34px; font-weight: 800; letter-spacing: -.04em; }
     .valuation-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .sentiment-card { padding: 24px; }
     .index-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
     .index-name { margin: 5px 0 0; font-size: 25px; }
     .badge {
@@ -184,7 +186,7 @@
       .shell { width: min(100% - 22px, 680px); padding-top: 24px; }
       header { align-items: flex-start; flex-direction: column; }
       .updated { text-align: left; }
-      .hero-grid, .index-grid, .valuation-grid { grid-template-columns: 1fr; }
+      .hero-grid, .index-grid, .valuation-grid, .sentiment-grid { grid-template-columns: 1fr; }
       .future-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero-main { align-items: flex-start; }
       .score-ring { width: 108px; }
@@ -234,10 +236,10 @@
       <article class="card allocation">
         <div>
           <span class="label">현재 완성도</span>
-          <h2>추세 모듈 연결됨</h2>
+          <h2>추세·밸류·심리 연결됨</h2>
         </div>
         <div>
-          <div class="bar"><span style="width:20%"></span></div>
+          <div class="bar"><span style="width:60%"></span></div>
           <div class="scale"><span>추세</span><span>전체 모델</span></div>
         </div>
       </article>
@@ -247,8 +249,9 @@
 
     <section class="valuation-grid" id="valuation-grid" aria-label="대표지수 밸류에이션"></section>
 
+    <section class="sentiment-grid" id="sentiment-grid" aria-label="한국시장 센티먼트"></section>
+
     <section class="future-grid" aria-label="추가 예정 분석">
-      <article class="card future-card"><div class="future-icon">◉</div><h3>센티먼트</h3><p>수급·신용·변동성 신호를 추가할 예정입니다.</p></article>
       <article class="card future-card"><div class="future-icon">◇</div><h3>미국시장</h3><p>미국 추세와 금융환경을 추가할 예정입니다.</p></article>
       <article class="card future-card"><div class="future-icon">★</div><h3>KODEX TOP 5</h3><p>시장환경에 맞는 ETF 순위를 추가할 예정입니다.</p></article>
     </section>
@@ -315,6 +318,25 @@
         </article>`;
     }
 
+    function sentimentCard(item) {
+      const tone = toneFor(item.score);
+      return `
+        <article class="card sentiment-card">
+          <div class="index-head">
+            <div><span class="label">전일 시장 심리</span><h2 class="valuation-title">${item.name}</h2></div>
+            <span class="badge">${item.score}점 · ${item.status}</span>
+          </div>
+          <div class="valuation-value" style="color:${tone}">${item.score}점</div>
+          <div class="metrics">
+            <div class="metric"><span class="label">상승 종목 비율</span><strong>${valueOrDash(item.advance_ratio_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">시장 폭 점수</span><strong>${valueOrDash(item.breadth_score, "점")}</strong></div>
+            <div class="metric"><span class="label">외국인+기관 순매수</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
+            <div class="metric"><span class="label">전일 등락률</span><strong>${signed(item.daily_return_pct)}</strong></div>
+          </div>
+          <p class="valuation-note">기준일 ${item.trading_date} · 신뢰도 ${item.confidence}</p>
+        </article>`;
+    }
+
     fetch("./data/dashboard.json", { cache: "no-store" })
       .then(response => {
         if (!response.ok) throw new Error("대시보드 데이터가 아직 생성되지 않았습니다.");
@@ -337,6 +359,9 @@
         const valuationItems = Object.entries(valuation.markets || {});
         document.getElementById("valuation-grid").innerHTML =
           valuationItems.map(valuationCard).join("");
+        const sentiment = korea.sentiment || {};
+        document.getElementById("sentiment-grid").innerHTML =
+          (sentiment.markets || []).map(sentimentCard).join("");
       })
       .catch(error => {
         const box = document.getElementById("error");
