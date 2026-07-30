@@ -339,8 +339,11 @@
     <section class="sentiment-grid" id="sentiment-grid" aria-label="한국시장 센티먼트"></section>
     <section class="sentiment-grid" id="supplementary-grid" aria-label="센티먼트 추가지표"></section>
 
+    <div class="section-title"><h2>추가 시장환경 지표</h2><p>ETF 참여도는 점수에 반영하고 환율은 보조 신호로만 표시합니다.</p></div>
+    <section class="sentiment-grid" id="observation-grid" aria-label="한국시장 관찰지표"></section>
+
     <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF TOP 5"></section>
-    <div class="section-title"><h2>개인수급 반영 TOP 3</h2><p>기존 적합도와 순자산 대비 개인 순매수를 결합한 별도 상대순위입니다.</p></div>
+    <div class="section-title"><h2>개인수급 반영 TOP 3</h2><p>개인수급은 20일 순매수 금액과 순자산 대비 순매수 비율을 각각 50% 반영합니다.</p></div>
     <section class="valuation-grid" id="personal-flow-grid" aria-label="개인수급 반영 KODEX TOP 3"></section>
     <details class="audit-panel">
       <summary>전체 KODEX 후보 평가표 보기</summary>
@@ -372,8 +375,8 @@
       이격도는 현재 지수가 20일·60일 이동평균에서 얼마나 떨어져 있는지를 나타냅니다.
       이동평균선의 배열과 20거래일간 기울기는 중기 추세 점수에 반영하며,
       변동성은 센티먼트 점수에 반영해 같은 신호가 중복 계산되지 않도록 했습니다.
-      센티먼트는 시장 폭 35%, 중기 수급 30%, 변동성 20%,
-      신용·예탁금 15%로 계산합니다.
+      센티먼트는 시장 폭 25%, 중기 수급 30%, 변동성 20%,
+      신용·예탁금 15%, 한국 주식형 ETF 참여도 10%로 계산합니다.
     </aside>
 
     <section class="future-grid" aria-label="추가 예정 분석">
@@ -476,7 +479,7 @@
           </div>
           <div class="valuation-value" style="color:${tone}">${item.score}점</div>
           <div class="metrics">
-            <div class="metric"><span class="label">시장 폭</span><strong>${contribution(item.breadth_score, 35)}</strong></div>
+            <div class="metric"><span class="label">시장 폭</span><strong>${contribution(item.breadth_score, 25)}</strong></div>
             <div class="metric"><span class="label">상승 종목 비율</span><strong>${valueOrDash(item.advance_ratio_pct, "%")}</strong></div>
             <div class="metric"><span class="label">중기 수급</span><strong>${contribution(item.flow_score, 30)}</strong></div>
             <div class="metric"><span class="label">전일 수급 비율</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
@@ -507,6 +510,41 @@
           <p class="valuation-note">기준일 ${funds.as_of} · ${funds.history_days}일 자료 사용</p>
         </article>` : "";
       return fundsCard;
+    }
+
+    function observationCards(korea, unitedStates) {
+      const participation = korea.etf_participation || {};
+      const usdkrw = ((unitedStates.observations || {}).usdkrw) || {};
+      const cards = [];
+      if (usdkrw.value != null) cards.push(`
+        <article class="card sentiment-card">
+          <div class="index-head">
+            <div><span class="label">FRED · 점수 미반영</span><h2 class="valuation-title">원/달러 환율 환경</h2></div>
+            <span class="badge">${usdkrw.signal || "중립"}</span>
+          </div>
+          <div class="metrics">
+            <div class="metric"><span class="label">현재 환율</span><strong>${valueOrDash(usdkrw.value, "원")}</strong></div>
+            <div class="metric"><span class="label">최근 1년 평균</span><strong>${valueOrDash(usdkrw.average_1y, "원")}</strong></div>
+            <div class="metric"><span class="label">1년 평균 대비</span><strong>${signed(usdkrw.deviation_from_1y_average_pct)}</strong></div>
+            <div class="metric"><span class="label">20일 / 60일 변화</span><strong>${signed(usdkrw.change_20d_pct)} / ${signed(usdkrw.change_60d_pct)}</strong></div>
+          </div>
+          <p class="valuation-note">${usdkrw.comment || ""} · 기준일 ${usdkrw.date || "-"}</p>
+        </article>`);
+      if (participation.available) cards.push(`
+        <article class="card sentiment-card">
+          <div class="index-head">
+            <div><span class="label">한투 API · 센티먼트 10점 반영</span><h2 class="valuation-title">한국 주식형 ETF 참여도</h2></div>
+            <span class="badge">${contribution(participation.score, 10)} · ${participation.signal || "중립"}</span>
+          </div>
+          <div class="metrics">
+            <div class="metric"><span class="label">20일선 상회 비율</span><strong>${valueOrDash(participation.above_ma20_ratio_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">60일선 상회 비율</span><strong>${valueOrDash(participation.above_ma60_ratio_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">20일 수익률 양수 비율</span><strong>${valueOrDash(participation.positive_20d_ratio_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">20일 수익률 중앙값</span><strong>${signed(participation.median_20d_return_pct)}</strong></div>
+          </div>
+          <p class="valuation-note">${participation.comment || ""} · ${participation.evaluated_count}개 평가 · 기준일 ${participation.as_of}</p>
+        </article>`);
+      return cards.join("") || `<article class="card sentiment-card"><p class="valuation-note">관찰지표 자료가 아직 없습니다.</p></article>`;
     }
 
     function suitabilityCards(item) {
@@ -669,6 +707,7 @@
             <span class="badge">${item.personal_adjusted_score}점</span>
           </div>
           <div class="metrics">
+            <div class="metric"><span class="label">20일 개인 순매수</span><strong>${fmt.format(item.personal_net_buy_20d_million)}백만원</strong></div>
             <div class="metric"><span class="label">순자산 대비 20일 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
             <div class="metric"><span class="label">ETF 순자산</span><strong>${fmt.format(item.net_assets_100m)}억원</strong></div>
           </div>
@@ -711,6 +750,8 @@
           (sentiment.markets || []).map(sentimentCard).join("");
         document.getElementById("supplementary-grid").innerHTML =
           supplementaryCards(sentiment.supplementary || {});
+        document.getElementById("observation-grid").innerHTML =
+          observationCards(korea, data.market.united_states || {});
         document.getElementById("kodex-grid").innerHTML =
           kodexCards(korea.kodex_top5 || []);
         document.getElementById("personal-flow-grid").innerHTML =

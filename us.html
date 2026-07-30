@@ -156,6 +156,12 @@
   <section class="grid two" id="index-grid"></section>
 
   <div class="section-title">
+    <h2>점수 미반영 관찰지표</h2>
+    <p>고용과 기대인플레이션의 실제 값 및 긍정·중립·부정 신호입니다.</p>
+  </div>
+  <section class="grid two" id="observation-grid"></section>
+
+  <div class="section-title">
     <h2>현재 시장 적합 KODEX TOP 3</h2>
     <p>상품명에 ‘미국’이 포함된 KODEX 중 레버리지·인버스를 제외합니다.</p>
   </div>
@@ -169,7 +175,7 @@
 
   <div class="section-title">
     <h2>개인수급 반영 TOP 3</h2>
-    <p>기존 적합도 70%와 순자산 대비 개인 순매수 강도 30%를 결합합니다.</p>
+    <p>개인수급은 20일 순매수 금액과 순자산 대비 순매수 비율을 각각 50% 반영합니다.</p>
   </div>
   <section class="grid" id="personal-grid"></section>
 
@@ -288,10 +294,34 @@
     return `<article class="card">
       <div class="head"><div><span class="label">${item.code}</span><h3>${item.name}</h3></div><span class="badge">${item.personal_adjusted_score}점</span></div>
       <div class="metrics">
+        <div class="metric"><span>20일 개인 순매수</span><strong>${value(item.personal_net_buy_20d_million,"백만원")}</strong></div>
         <div class="metric"><span>순자산 대비 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
         <div class="metric"><span>순자산</span><strong>${value(item.net_assets_100m,"억원")}</strong></div>
       </div>
     </article>`;
+  }
+
+  function observationCards(observations) {
+    const labor=observations.us_labor||{}, inflation=observations.inflation_expectations||{};
+    return `
+      <article class="card">
+        <div class="head"><div><span class="label">FRED ICSA · 점수 미반영</span><h3>미국 고용경기 위험</h3></div><span class="badge">${labor.signal||"중립"}</span></div>
+        <div class="metrics">
+          <div class="metric"><span>신규 실업수당</span><strong>${value(labor.value,"건")}</strong></div>
+          <div class="metric"><span>4주 평균</span><strong>${value(labor.average_4w,"건")}</strong></div>
+          <div class="metric"><span>13주 변화율</span><strong>${signed(labor.change_13w_pct)}</strong></div>
+        </div>
+        <p class="note">${labor.comment||""} · 기준일 ${labor.date||"-"}</p>
+      </article>
+      <article class="card">
+        <div class="head"><div><span class="label">FRED T10YIE · 점수 미반영</span><h3>10년 기대인플레이션</h3></div><span class="badge">${inflation.signal||"중립"}</span></div>
+        <div class="metrics">
+          <div class="metric"><span>현재 기대인플레이션</span><strong>${value(inflation.value,"%")}</strong></div>
+          <div class="metric"><span>20일 변화</span><strong>${value(inflation.change_20d_pp,"%p")}</strong></div>
+          <div class="metric"><span>60일 변화</span><strong>${value(inflation.change_60d_pp,"%p")}</strong></div>
+        </div>
+        <p class="note">${inflation.comment||""} · 기준일 ${inflation.date||"-"}</p>
+      </article>`;
   }
 
   function audit(items,summary) {
@@ -309,6 +339,7 @@
     document.getElementById("updated").textContent=`마지막 갱신 · ${new Date(data.updated_at).toLocaleString("ko-KR")}`;
     document.getElementById("market-grid").innerHTML=marketCards(us);
     document.getElementById("index-grid").innerHTML=(us.trend.indexes||[]).map(indexCard).join("");
+    document.getElementById("observation-grid").innerHTML=observationCards(us.observations||{});
     const selected=us.kodex_top5||[];
     document.getElementById("current-grid").innerHTML=selected.filter(x=>x.strategy!=="contrarian").map(etfCard).join("")||`<article class="card"><p class="note">후보가 없습니다.</p></article>`;
     document.getElementById("contrarian-grid").innerHTML=selected.filter(x=>x.strategy==="contrarian").map(etfCard).join("")||`<article class="card"><p class="note">조건을 충족한 후보가 없습니다.</p></article>`;
