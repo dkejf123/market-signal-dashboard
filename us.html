@@ -82,6 +82,8 @@
     .keywords { display:flex; flex-wrap:wrap; gap:7px; margin-top:15px; }
     .keyword { padding:6px 9px; background:#f0f4fb; border-radius:999px; color:#52617b; font-size:12px; }
     .note { margin:14px 0 0; color:var(--muted); font-size:13px; line-height:1.55; }
+    .reason-list { margin:16px 0 0; padding-left:20px; color:#34425a; font-size:13px; line-height:1.6; }
+    .reason-list li + li { margin-top:5px; }
     details { background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); }
     summary { cursor:pointer; padding:18px 22px; font-weight:800; }
     .table-wrap { overflow:auto; padding:0 18px 18px; }
@@ -225,6 +227,7 @@
           <div><span class="label">미국시장 종합판정</span><h2>${us.status}</h2><p class="muted">${interpretation}</p></div>
           <div class="score" style="color:${tone(us.preliminary_score)}">${us.preliminary_score}/100점</div>
         </div>
+        ${reasonList({reason_bullets:us.summary_bullets||[]})}
         <div class="signal-row">${breadthSignal}${vixSignal}${creditSignal}${financialSignal}</div>
         ${sentiment.risk_guardrail ? `<p class="note">안전장치: ${sentiment.risk_guardrail}</p>` : ""}
       </article>
@@ -286,7 +289,7 @@
         <div class="metric"><span>RSI(14)</span><strong>${value(item.rsi_14)}</strong></div>
       </div>
       <div class="keywords">${(item.keywords||[]).map(x=>`<span class="keyword">#${x}</span>`).join("")}</div>
-      <p class="note">${item.reason||""}</p>
+      ${reasonList(item)}
     </article>`;
   }
 
@@ -298,7 +301,15 @@
         <div class="metric"><span>순자산 대비 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
         <div class="metric"><span>순자산</span><strong>${value(item.net_assets_100m,"억원")}</strong></div>
       </div>
+      ${reasonList(item)}
     </article>`;
+  }
+
+  function reasonList(item) {
+    const reasons=item.reason_bullets||(item.reason?[item.reason]:[]);
+    return reasons.length
+      ? `<ul class="reason-list">${reasons.map(reason=>`<li>${reason}</li>`).join("")}</ul>`
+      : "";
   }
 
   function observationCards(observations) {

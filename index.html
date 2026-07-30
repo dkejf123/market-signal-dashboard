@@ -94,16 +94,6 @@
       color: #fff;
       background: linear-gradient(135deg, var(--accent), #276fe7);
     }
-    .reading-order {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .reading-order strong { color: var(--text); }
     .audit-panel {
       margin-top: 16px;
       padding: 20px;
@@ -127,6 +117,8 @@
     .hero-grid { grid-template-columns: 1fr; }
     .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
     .valuation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
+    #kodex-grid, #personal-flow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .valuation-grid > .section-title { grid-column: 1 / -1; margin-bottom: 0; }
     .sentiment-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
     .card {
       background: linear-gradient(145deg, rgba(18, 36, 58, .94), rgba(11, 27, 46, .94));
@@ -199,6 +191,8 @@
     .valuation-title { margin: 5px 0 0; font-size: 22px; }
     .valuation-value { margin-top: 22px; font-size: 34px; font-weight: 800; letter-spacing: -.04em; }
     .valuation-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .reason-list { margin: 16px 0 0; padding-left: 20px; color: #dce5f2; font-size: 13px; line-height: 1.6; }
+    .reason-list li + li { margin-top: 5px; }
     .keyword-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
     .keyword {
       padding: 6px 9px;
@@ -208,17 +202,6 @@
       font-size: 11px;
     }
     .sentiment-card { padding: 24px; }
-    .method-note {
-      margin-top: 16px;
-      padding: 18px 20px;
-      border: 1px solid rgba(115,169,255,.24);
-      border-radius: 16px;
-      background: rgba(115,169,255,.06);
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-    .method-note strong { color: var(--text); }
     .index-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
     .index-name { margin: 5px 0 0; font-size: 25px; }
     .badge {
@@ -258,7 +241,8 @@
       .shell { width: min(100% - 22px, 680px); padding-top: 24px; }
       header { align-items: flex-start; flex-direction: column; }
       .updated { text-align: left; }
-      .hero-grid, .index-grid, .valuation-grid, .sentiment-grid { grid-template-columns: 1fr; }
+      .hero-grid, .index-grid, .valuation-grid, .sentiment-grid,
+      #kodex-grid, #personal-flow-grid { grid-template-columns: 1fr; }
       .hero-main { align-items: flex-start; }
       .score-ring { width: 108px; }
     }
@@ -278,8 +262,6 @@
       </div>
       <div class="header-links">
         <p class="updated" id="updated">데이터를 불러오는 중입니다.</p>
-        <a class="page-link" href="./index.html">🇰🇷 한국시장</a>
-        <a class="page-link" href="./us.html">🇺🇸 미국시장</a>
         <a class="page-link" href="./appendix.html">지표·점수 산출 근거 Appendix →</a>
       </div>
     </header>
@@ -291,11 +273,6 @@
 
     <div class="error" id="error"></div>
 
-    <div class="reading-order">
-      <strong>한눈에 보는 순서</strong><span>① 종합판정</span><span>→</span>
-      <span>② 시장별 구성</span><span>→</span><span>③ 세부 원자료</span>
-      <span>→</span><span>④ ETF 후보</span>
-    </div>
     <section class="hero-grid" aria-label="한국시장 요약">
       <article class="card hero">
         <div class="hero-main">
@@ -303,6 +280,7 @@
             <span class="label">한국시장 중기 투자 적합도</span>
             <div class="status" id="korea-status">분석 준비 중</div>
             <p class="summary" id="korea-summary">KOSPI와 KOSDAQ의 중기 추세를 종합합니다.</p>
+            <ul class="reason-list" id="market-summary"></ul>
           </div>
           <div class="score-ring" id="score-ring" aria-label="한국시장 투자 적합도 점수">
             <div>
@@ -320,59 +298,30 @@
 
     </section>
 
-    <div class="section-title"><h2>시장별 투자환경 구성</h2><p>KOSPI는 밸류에이션, KOSDAQ은 상대강도를 사용합니다.</p></div>
+    <div class="section-title"><h2>KOSPI·KOSDAQ 구성</h2><p>추세 40%·가치 또는 상대강도 30%·시장심리 30%를 비교합니다.</p></div>
     <section class="valuation-grid" id="suitability-grid" aria-label="한국시장 최종 투자 적합도"></section>
 
-    <div class="section-title"><h2>한국 지수 추세</h2><p>KOSPI와 KOSDAQ의 동일한 중기 추세 규칙을 비교합니다.</p></div>
+    <div class="section-title"><h2>중기 추세</h2><p>대표지수의 현재 위치와 3·6개월 흐름을 비교합니다.</p></div>
     <section class="index-grid" id="index-grid" aria-label="시장별 추세"></section>
 
-    <div class="section-title"><h2>밸류에이션·대체지표</h2><p>KOSPI 선행 PER은 점수에 반영하고 KOSDAQ 선행 PER은 참고용으로만 표시합니다.</p></div>
+    <div class="section-title"><h2>가치·상대강도</h2><p>KOSPI는 선행 PER, KOSDAQ은 KOSPI 대비 상대수익률을 사용합니다.</p></div>
     <section class="valuation-grid" id="valuation-grid" aria-label="대표지수 밸류에이션"></section>
 
-    <div class="section-title"><h2>시장심리·금융환경</h2><p>시장 폭, 수급, 변동성, 신용·예탁금을 종합합니다.</p></div>
+    <div class="section-title"><h2>위험선호·수급</h2><p>상승 종목 비율, 외국인·기관 수급, 변동성과 증시 유동성을 확인합니다.</p></div>
     <section class="sentiment-grid" id="sentiment-grid" aria-label="한국시장 센티먼트"></section>
     <section class="sentiment-grid" id="supplementary-grid" aria-label="센티먼트 추가지표"></section>
 
-    <div class="section-title"><h2>추가 시장환경 지표</h2><p>ETF 참여도는 점수에 반영하고 환율은 보조 신호로만 표시합니다.</p></div>
+    <div class="section-title"><h2>시장 확산·환율</h2><p>ETF 참여도는 점수에 반영하고 원/달러 환율은 보조 신호로 표시합니다.</p></div>
     <section class="sentiment-grid" id="observation-grid" aria-label="한국시장 관찰지표"></section>
 
-    <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF TOP 5"></section>
+    <div class="section-title"><h2>KODEX ETF 제안</h2><p>현재 적합형 3개와 조건을 충족한 역발상 후보를 구분합니다.</p></div>
+    <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF 제안"></section>
     <div class="section-title"><h2>개인수급 반영 TOP 3</h2><p>개인수급은 20일 순매수 금액과 순자산 대비 순매수 비율을 각각 50% 반영합니다.</p></div>
     <section class="valuation-grid" id="personal-flow-grid" aria-label="개인수급 반영 KODEX TOP 3"></section>
     <details class="audit-panel">
       <summary>전체 KODEX 후보 평가표 보기</summary>
       <div id="kodex-audit"></div>
     </details>
-    <aside class="method-note" aria-label="KODEX ETF 선별 기준">
-      <strong>KODEX TOP 5 선별 기준</strong><br>
-      국내 주식형 KODEX 전체 후보군(시장지수·테마·액티브·섹터·스마트베타·커버드콜)을
-      비교합니다. 레버리지·인버스·롱숏은 제외합니다.
-      시장환경 30%, 20일 모멘텀 25%, 60일 모멘텀 20%,
-      20·60일 이동평균 추세 15%, 변동성 10%를 반영합니다.
-      현재 적합형 3개와, 낙폭 이후 5일 반등·RSI·단기 추세 안정이 확인된
-      역발상 관찰 후보를 최대 2개까지 별도로 표시합니다.
-      가격 원자료는 한국투자증권 Open API의 국내주식 기간별시세이며,
-      모멘텀·RSI·이동평균·낙폭·변동성은 해당 수정종가로 모델이 계산합니다.
-    </aside>
-    <aside class="method-note" aria-label="수급 지표 정의">
-      <strong>수급 지표 정의</strong><br>
-      수급은 외국인 순매수 금액과 기관 순매수 금액을 합친 값입니다.
-      전일 수급 비율은 이를 전일 시장 거래대금으로 나눈 값입니다.
-      5일·20일 평균 수급은 해당 기간의 외국인+기관 순매수를 합산한 뒤,
-      최근 전일 거래대금과 실제 사용 거래일 수로 나누어 시장 규모를 보정한 평균 비율입니다.
-      양수는 순매수 우위, 음수는 순매도 우위를 뜻하며 수익률이나 보유비중을 의미하지 않습니다.
-    </aside>
-    <aside class="method-note" aria-label="변동성·이동평균 지표 정의">
-      <strong>변동성·이동평균 지표 정의</strong><br>
-      20일 실현 변동성은 최근 20거래일의 일간 수익률 변동을 연율화한 값입니다.
-      변동성이 낮을수록 시장 심리가 안정적인 것으로 평가합니다.
-      이격도는 현재 지수가 20일·60일 이동평균에서 얼마나 떨어져 있는지를 나타냅니다.
-      이동평균선의 배열과 20거래일간 기울기는 중기 추세 점수에 반영하며,
-      변동성은 센티먼트 점수에 반영해 같은 신호가 중복 계산되지 않도록 했습니다.
-      센티먼트는 시장 폭 25%, 중기 수급 30%, 변동성 20%,
-      신용·예탁금 15%, 한국 주식형 ETF 참여도 10%로 계산합니다.
-    </aside>
-
     <footer>본 화면은 투자환경 판단 보조자료이며 수익을 보장하지 않습니다.</footer>
   </main>
 
@@ -395,18 +344,14 @@
           <div class="metrics">
             <div class="metric"><span class="label">현재 지수</span><strong>${fmt.format(item.close)}</strong></div>
             <div class="metric"><span class="label">50일 / 200일선</span><strong>${fmt.format(item.moving_average_50)} / ${fmt.format(item.moving_average_200)}</strong></div>
-            <div class="metric"><span class="label">20일 / 60일 이동평균</span><strong>${fmt.format(item.moving_average_20)} / ${fmt.format(item.moving_average_60)}</strong></div>
             <div class="metric"><span class="label">20일 / 60일 이격도</span><strong>${signed(item.distance_from_ma20_pct)} / ${signed(item.distance_from_ma60_pct)}</strong></div>
-            <div class="metric"><span class="label">20일선 / 60일선 기울기</span><strong>${signed(item.ma20_slope_20d_pct)} / ${signed(item.ma60_slope_20d_pct)}</strong></div>
-            <div class="metric"><span class="label">3개월 수익률</span><strong class="${returnClass3}">${signed(item.return_3_months_pct)}</strong></div>
-            <div class="metric"><span class="label">6개월 수익률</span><strong class="${returnClass6}">${signed(item.return_6_months_pct)}</strong></div>
+            <div class="metric"><span class="label">3개월 / 6개월 수익률</span><strong><span class="${returnClass3}">${signed(item.return_3_months_pct)}</span> / <span class="${returnClass6}">${signed(item.return_6_months_pct)}</span></strong></div>
           </div>
         </article>`;
     }
 
     const valuationNames = {
-      kospi200: "KOSPI 200",
-      kosdaq150: "KOSDAQ 150"
+      kospi200: "KOSPI 200"
     };
     const methodNames = {
       KIS_ONLY: "KIS 추정값",
@@ -468,13 +413,10 @@
           </div>
           <div class="valuation-value" style="color:${tone}">${item.score}점</div>
           <div class="metrics">
-            <div class="metric"><span class="label">시장 폭</span><strong>${contribution(item.breadth_score, 25)}</strong></div>
             <div class="metric"><span class="label">상승 종목 비율</span><strong>${valueOrDash(item.advance_ratio_pct, "%")}</strong></div>
-            <div class="metric"><span class="label">중기 수급</span><strong>${contribution(item.flow_score, 30)}</strong></div>
             <div class="metric"><span class="label">전일 수급 비율</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">5일 평균 수급</span><strong>${signed(item.smart_money_5d_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">20일 평균 수급</span><strong>${signed(item.smart_money_20d_ratio_pct)}</strong></div>
-            <div class="metric"><span class="label">변동성 안정</span><strong>${contribution(item.volatility_score, 20)}</strong></div>
             <div class="metric"><span class="label">20일 실현 변동성</span><strong>${valueOrDash(item.realized_volatility_20d_pct, "%")}</strong></div>
             <div class="metric"><span class="label">전일 등락률</span><strong>${signed(item.daily_return_pct)}</strong></div>
           </div>
@@ -552,16 +494,7 @@
             <div class="metric"><span class="label">데이터 신뢰도</span><strong>${market.confidence}</strong></div>
           </div>
         </article>`).join("");
-      return `
-        <article class="card valuation-card">
-          <div class="index-head">
-            <div><span class="label">한국시장 최종 판단</span><h2 class="valuation-title">${item.status}</h2></div>
-            <span class="badge">${item.horizon}</span>
-          </div>
-          <div class="valuation-value" style="color:${toneFor(item.score)}">${item.score}점</div>
-          <p class="summary">${item.market_comment || ""}</p>
-          <p class="valuation-note">${item.method}</p>
-        </article>` + detailCards;
+      return detailCards;
     }
 
     function kodexCards(items) {
@@ -587,7 +520,7 @@
             ${(item.keywords || []).map(keyword => `<span class="keyword">#${keyword}</span>`).join("")}
           </div>
           <p class="valuation-note">원자료: ${item.data_source || "한국투자증권 Open API"} · ${item.source_endpoint || "국내주식 기간별시세"}</p>
-          <p class="valuation-note">${item.reason}</p>
+          ${reasonList(item)}
         </article>`).join("");
       const current = items.filter(item => item.strategy !== "contrarian");
       const contrarian = items.filter(item => item.strategy === "contrarian");
@@ -666,8 +599,15 @@
             <div class="metric"><span class="label">ETF 순자산</span><strong>${fmt.format(item.net_assets_100m)}억원</strong></div>
           </div>
           <div class="keyword-list">${(item.keywords || []).map(keyword => `<span class="keyword">#${keyword}</span>`).join("")}</div>
-          <p class="valuation-note">${item.reason}</p>
+          ${reasonList(item)}
         </article>`).join("");
+    }
+
+    function reasonList(item) {
+      const reasons = item.reason_bullets || (item.reason ? [item.reason] : []);
+      return reasons.length
+        ? `<ul class="reason-list">${reasons.map(reason => `<li>${reason}</li>`).join("")}</ul>`
+        : "";
     }
 
     fetch("./data/dashboard.json", { cache: "no-store" })
@@ -689,13 +629,18 @@
         ring.style.setProperty("--score", finalSignal.score);
         ring.style.setProperty("--tone", toneFor(finalSignal.score));
         document.getElementById("korea-summary").textContent =
+          finalSignal.market_comment ||
           `추세·밸류에이션·센티먼트를 결합한 3~6개월 투자 적합도입니다.`;
+        document.getElementById("market-summary").innerHTML =
+          (finalSignal.summary_bullets || [])
+            .map(item => `<li>${item}</li>`).join("");
         document.getElementById("index-grid").innerHTML =
           korea.indexes.map(indexCard).join("");
         document.getElementById("suitability-grid").innerHTML =
           suitabilityCards(korea.suitability || {});
         const valuation = korea.valuation || {};
-        const valuationItems = Object.entries(valuation.markets || {});
+        const valuationItems = Object.entries(valuation.markets || {})
+          .filter(([key]) => key === "kospi200");
         document.getElementById("valuation-grid").innerHTML =
           valuationItems.map(valuationCard).join("") +
           relativeStrengthCard(korea.kosdaq_relative_strength);
