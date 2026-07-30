@@ -143,6 +143,17 @@
     .valuation-value { margin-top: 22px; font-size: 34px; font-weight: 800; letter-spacing: -.04em; }
     .valuation-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
     .sentiment-card { padding: 24px; }
+    .method-note {
+      margin-top: 16px;
+      padding: 18px 20px;
+      border: 1px solid rgba(115,169,255,.24);
+      border-radius: 16px;
+      background: rgba(115,169,255,.06);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .method-note strong { color: var(--text); }
     .index-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
     .index-name { margin: 5px 0 0; font-size: 25px; }
     .badge {
@@ -250,6 +261,24 @@
     <section class="valuation-grid" id="valuation-grid" aria-label="대표지수 밸류에이션"></section>
 
     <section class="sentiment-grid" id="sentiment-grid" aria-label="한국시장 센티먼트"></section>
+    <section class="sentiment-grid" id="supplementary-grid" aria-label="센티먼트 추가지표"></section>
+    <aside class="method-note" aria-label="수급 지표 정의">
+      <strong>수급 지표 정의</strong><br>
+      수급은 외국인 순매수 금액과 기관 순매수 금액을 합친 값입니다.
+      전일 수급 비율은 이를 전일 시장 거래대금으로 나눈 값입니다.
+      5일·20일 평균 수급은 해당 기간의 외국인+기관 순매수를 합산한 뒤,
+      최근 전일 거래대금과 실제 사용 거래일 수로 나누어 시장 규모를 보정한 평균 비율입니다.
+      양수는 순매수 우위, 음수는 순매도 우위를 뜻하며 수익률이나 보유비중을 의미하지 않습니다.
+    </aside>
+    <aside class="method-note" aria-label="변동성·이동평균 지표 정의">
+      <strong>변동성·이동평균 지표 정의</strong><br>
+      20일 실현 변동성은 최근 20거래일의 일간 수익률 변동을 연율화한 값입니다.
+      변동성이 낮을수록 시장 심리가 안정적인 것으로 평가합니다.
+      이격도는 현재 지수가 20일·60일 이동평균에서 얼마나 떨어져 있는지를 나타냅니다.
+      이동평균선의 배열과 20거래일간 기울기는 중기 추세 점수에 반영하며,
+      변동성은 센티먼트 점수에 반영해 같은 신호가 중복 계산되지 않도록 했습니다.
+      센티먼트는 시장 폭 35%, 중기 수급 35%, 변동성 30%로 계산합니다.
+    </aside>
 
     <section class="future-grid" aria-label="추가 예정 분석">
       <article class="card future-card"><div class="future-icon">◇</div><h3>미국시장</h3><p>미국 추세와 금융환경을 추가할 예정입니다.</p></article>
@@ -276,6 +305,9 @@
           <div class="metrics">
             <div class="metric"><span class="label">현재 지수</span><strong>${fmt.format(item.close)}</strong></div>
             <div class="metric"><span class="label">50일 / 200일선</span><strong>${fmt.format(item.moving_average_50)} / ${fmt.format(item.moving_average_200)}</strong></div>
+            <div class="metric"><span class="label">20일 / 60일 이동평균</span><strong>${fmt.format(item.moving_average_20)} / ${fmt.format(item.moving_average_60)}</strong></div>
+            <div class="metric"><span class="label">20일 / 60일 이격도</span><strong>${signed(item.distance_from_ma20_pct)} / ${signed(item.distance_from_ma60_pct)}</strong></div>
+            <div class="metric"><span class="label">20일선 / 60일선 기울기</span><strong>${signed(item.ma20_slope_20d_pct)} / ${signed(item.ma60_slope_20d_pct)}</strong></div>
             <div class="metric"><span class="label">3개월 수익률</span><strong class="${returnClass3}">${signed(item.return_3_months_pct)}</strong></div>
             <div class="metric"><span class="label">6개월 수익률</span><strong class="${returnClass6}">${signed(item.return_6_months_pct)}</strong></div>
           </div>
@@ -333,10 +365,47 @@
             <div class="metric"><span class="label">전일 수급 비율</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">5일 평균 수급</span><strong>${signed(item.smart_money_5d_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">20일 평균 수급</span><strong>${signed(item.smart_money_20d_ratio_pct)}</strong></div>
+            <div class="metric"><span class="label">20일 실현 변동성</span><strong>${valueOrDash(item.realized_volatility_20d_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">변동성 안정 점수</span><strong>${valueOrDash(item.volatility_score, "점")}</strong></div>
             <div class="metric"><span class="label">전일 등락률</span><strong>${signed(item.daily_return_pct)}</strong></div>
           </div>
           <p class="valuation-note">기준일 ${item.trading_date} · 수급 ${item.flow_history_days}거래일 사용 · 신뢰도 ${item.confidence}</p>
         </article>`;
+    }
+
+    function supplementaryCards(supplementary) {
+      const funds = supplementary.market_funds || {};
+      const pcr = supplementary.option_pcr || {};
+      const fundsCard = funds.available ? `
+        <article class="card sentiment-card">
+          <div class="index-head">
+            <div><span class="label">증시 유동성·레버리지</span><h2 class="valuation-title">신용·예탁금</h2></div>
+            <span class="badge">${funds.score}점 · ${funds.confidence}</span>
+          </div>
+          <div class="metrics">
+            <div class="metric"><span class="label">고객예탁금 5일 / 20일</span><strong>${signed(funds.deposit_5d_change_pct)} / ${signed(funds.deposit_20d_change_pct)}</strong></div>
+            <div class="metric"><span class="label">신용잔고 5일 / 20일</span><strong>${signed(funds.credit_5d_change_pct)} / ${signed(funds.credit_20d_change_pct)}</strong></div>
+            <div class="metric"><span class="label">신용 / 예탁금</span><strong>${fmt.format(funds.credit_to_deposit_pct)}%</strong></div>
+            <div class="metric"><span class="label">100일 레버리지 백분위</span><strong>${fmt.format(funds.leverage_percentile_100d)}%</strong></div>
+          </div>
+          <p class="valuation-note">기준일 ${funds.as_of} · ${funds.history_days}일 자료 사용</p>
+        </article>` : "";
+      const pcrCard = pcr.available ? `
+        <article class="card sentiment-card">
+          <div class="index-head">
+            <div><span class="label">옵션시장 쏠림</span><h2 class="valuation-title">ATM 풋·콜 비율</h2></div>
+            <span class="badge">${pcr.score}점 · 신뢰도 ${pcr.confidence}</span>
+          </div>
+          <div class="valuation-value">${fmt.format(pcr.pcr_open_interest)}</div>
+          <div class="metrics">
+            <div class="metric"><span class="label">콜 미결제약정</span><strong>${fmt.format(pcr.call_open_interest)}</strong></div>
+            <div class="metric"><span class="label">풋 미결제약정</span><strong>${fmt.format(pcr.put_open_interest)}</strong></div>
+            <div class="metric"><span class="label">사용 행사가</span><strong>${pcr.strike_rows_used}개</strong></div>
+            <div class="metric"><span class="label">옵션 월물</span><strong>${pcr.expiry || "-"}</strong></div>
+          </div>
+          <p class="valuation-note">${pcr.note}</p>
+        </article>` : "";
+      return fundsCard + pcrCard;
     }
 
     fetch("./data/dashboard.json", { cache: "no-store" })
@@ -364,6 +433,8 @@
         const sentiment = korea.sentiment || {};
         document.getElementById("sentiment-grid").innerHTML =
           (sentiment.markets || []).map(sentimentCard).join("");
+        document.getElementById("supplementary-grid").innerHTML =
+          supplementaryCards(sentiment.supplementary || {});
       })
       .catch(error => {
         const box = document.getElementById("error");
