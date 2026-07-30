@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-30T12:45+09:00",
+  "updated_at": "2026-07-30T13:00+09:00",
   "market": {
     "korea": {
       "status": "강한 하락",
@@ -9,19 +9,19 @@
           "name": "KOSPI",
           "code": "0001",
           "trading_date": "20260730",
-          "close": 5663.09,
-          "moving_average_50": 7768.25,
-          "moving_average_200": 5718.87,
-          "moving_average_20": 6959.13,
-          "moving_average_60": 7733.7,
-          "distance_from_ma20_pct": -18.62,
-          "distance_from_ma60_pct": -26.77,
-          "ma20_slope_20d_pct": -17.43,
+          "close": 5679.29,
+          "moving_average_50": 7768.57,
+          "moving_average_200": 5718.95,
+          "moving_average_20": 6959.94,
+          "moving_average_60": 7733.97,
+          "distance_from_ma20_pct": -18.4,
+          "distance_from_ma60_pct": -26.57,
+          "ma20_slope_20d_pct": -17.42,
           "ma60_slope_20d_pct": 3.7,
-          "realized_volatility_20d_pct": 82.55,
+          "realized_volatility_20d_pct": 82.64,
           "volatility_score": 0,
-          "return_3_months_pct": -14.39,
-          "return_6_months_pct": 14.35,
+          "return_3_months_pct": -14.15,
+          "return_6_months_pct": 14.67,
           "score": 30,
           "status": "하락 우위"
         },
@@ -29,43 +29,43 @@
           "name": "KOSDAQ",
           "code": "1001",
           "trading_date": "20260730",
-          "close": 651.3,
-          "moving_average_50": 916.32,
-          "moving_average_200": 997.71,
-          "moving_average_20": 780.59,
-          "moving_average_60": 960.7,
-          "distance_from_ma20_pct": -16.56,
-          "distance_from_ma60_pct": -32.21,
-          "ma20_slope_20d_pct": -18.84,
+          "close": 653.87,
+          "moving_average_50": 916.37,
+          "moving_average_200": 997.72,
+          "moving_average_20": 780.71,
+          "moving_average_60": 960.75,
+          "distance_from_ma20_pct": -16.25,
+          "distance_from_ma60_pct": -31.94,
+          "ma20_slope_20d_pct": -18.83,
           "ma60_slope_20d_pct": -11.2,
-          "realized_volatility_20d_pct": 66.62,
+          "realized_volatility_20d_pct": 66.64,
           "volatility_score": 0,
-          "return_3_months_pct": -46.88,
-          "return_6_months_pct": -32.88,
+          "return_3_months_pct": -46.67,
+          "return_6_months_pct": -32.62,
           "score": 0,
           "status": "강한 하락"
         }
       ],
       "valuation": {
         "available": true,
-        "generated_at": "2026-07-30T12:40:47.405367+09:00",
+        "generated_at": "2026-07-30T12:55:45.112595+09:00",
         "markets": {
           "kospi200": {
             "index_key": "kospi200",
-            "kis_forward_per": 4.36,
-            "kis_coverage_pct": 74.04,
+            "kis_forward_per": 4.41,
+            "kis_coverage_pct": 74.1,
             "external_forward_per": null,
             "external_as_of": null,
             "external_source": null,
             "similarity_pct": null,
-            "final_forward_per": 4.36,
+            "final_forward_per": 4.41,
             "method": "KIS_ONLY",
             "confidence": "보통",
             "note": "외부 12M Forward PER 미등록"
           },
           "kosdaq150": {
             "index_key": "kosdaq150",
-            "kis_forward_per": 23.12,
+            "kis_forward_per": 23.28,
             "kis_coverage_pct": 23.17,
             "external_forward_per": null,
             "external_as_of": null,
@@ -80,7 +80,7 @@
       },
       "sentiment": {
         "available": true,
-        "generated_at": "2026-07-30T12:41:05.042334+09:00",
+        "generated_at": "2026-07-30T12:56:02.262491+09:00",
         "overall_score": 26,
         "overall_status": "극단적 불안",
         "markets": [
@@ -102,7 +102,7 @@
             "flow_history_days": 20,
             "daily_return_score": 0,
             "daily_return_pct": -5.98,
-            "realized_volatility_20d_pct": 82.55,
+            "realized_volatility_20d_pct": 82.64,
             "volatility_score": 0
           },
           {
@@ -123,7 +123,7 @@
             "flow_history_days": 20,
             "daily_return_score": 0,
             "daily_return_pct": -6.12,
-            "realized_volatility_20d_pct": 66.62,
+            "realized_volatility_20d_pct": 66.64,
             "volatility_score": 0
           }
         ],
@@ -149,7 +149,7 @@
       "suitability": {
         "score": 33,
         "status": "부적합",
-        "market_comment": "추세와 투자심리가 약해 현금성·채권형 ETF가 우선되는 환경입니다. 주식형 ETF는 상대강도가 확인되는 업종만 선별적으로 접근하는 편이 적합합니다.",
+        "market_comment": "추세와 투자심리가 약해 국내 주식형 ETF 투자에는 부적합한 환경입니다. 아래 TOP 5는 매수 추천이 아니라 전체 국내 주식형 후보군 안에서의 상대순위입니다.",
         "horizon": "3~6개월",
         "method": "추세 40% · 밸류에이션 30% · 센티먼트 30%",
         "markets": {
