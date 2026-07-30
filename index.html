@@ -120,7 +120,7 @@
     .audit-table th:nth-child(-n+3), .audit-table td:nth-child(-n+3), .audit-table td:last-child { text-align: left; }
     .audit-table .selected { color: var(--good); font-weight: 800; }
     .audit-table .contrarian { color: var(--warn); font-weight: 800; }
-    .hero-grid, .index-grid, .valuation-grid, .sentiment-grid, .future-grid {
+    .hero-grid, .index-grid, .valuation-grid, .sentiment-grid {
       display: grid;
       gap: 16px;
     }
@@ -128,7 +128,6 @@
     .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
     .valuation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
     .sentiment-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
-    .future-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
     .card {
       background: linear-gradient(145deg, rgba(18, 36, 58, .94), rgba(11, 27, 46, .94));
       border: 1px solid var(--line);
@@ -245,10 +244,6 @@
     .metric strong { display: block; margin-top: 7px; font-size: 17px; }
     .positive { color: var(--good); }
     .negative { color: var(--bad); }
-    .future-card { min-height: 128px; padding: 20px; opacity: .72; }
-    .future-icon { color: var(--accent); font-size: 22px; }
-    .future-card h3 { margin: 18px 0 6px; font-size: 14px; }
-    .future-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
     .error {
       display: none;
       margin-bottom: 16px;
@@ -264,7 +259,6 @@
       header { align-items: flex-start; flex-direction: column; }
       .updated { text-align: left; }
       .hero-grid, .index-grid, .valuation-grid, .sentiment-grid { grid-template-columns: 1fr; }
-      .future-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero-main { align-items: flex-start; }
       .score-ring { width: 108px; }
     }
@@ -272,7 +266,6 @@
       .hero { padding: 22px; }
       .hero-main { flex-direction: column-reverse; }
       .score-ring { width: 96px; }
-      .future-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -300,17 +293,18 @@
 
     <div class="reading-order">
       <strong>한눈에 보는 순서</strong><span>① 종합판정</span><span>→</span>
-      <span>② 추세·시장심리</span><span>→</span><span>③ ETF 후보</span>
+      <span>② 시장별 구성</span><span>→</span><span>③ 세부 원자료</span>
+      <span>→</span><span>④ ETF 후보</span>
     </div>
     <section class="hero-grid" aria-label="한국시장 요약">
       <article class="card hero">
         <div class="hero-main">
           <div>
-            <span class="label">한국시장 추세 판단</span>
+            <span class="label">한국시장 중기 투자 적합도</span>
             <div class="status" id="korea-status">분석 준비 중</div>
             <p class="summary" id="korea-summary">KOSPI와 KOSDAQ의 중기 추세를 종합합니다.</p>
           </div>
-          <div class="score-ring" id="score-ring" aria-label="한국시장 추세 점수">
+          <div class="score-ring" id="score-ring" aria-label="한국시장 투자 적합도 점수">
             <div>
               <div class="score-number" id="korea-score">--</div>
               <div class="score-unit">100점 만점</div>
@@ -318,19 +312,19 @@
           </div>
         </div>
         <div class="legend" aria-label="점수 기준">
-          <span><i class="dot good"></i>60점 이상 상승 우위</span>
-          <span><i class="dot warn"></i>40–59점 중립</span>
-          <span><i class="dot bad"></i>39점 이하 하락 우위</span>
+          <span><i class="dot good"></i>60점 이상 적합</span>
+          <span><i class="dot warn"></i>45–59점 중립</span>
+          <span><i class="dot bad"></i>44점 이하 부적합</span>
         </div>
       </article>
 
     </section>
 
-    <div class="section-title"><h2>한국 지수 추세</h2><p>KOSPI와 KOSDAQ의 동일한 중기 추세 규칙을 비교합니다.</p></div>
-    <section class="index-grid" id="index-grid" aria-label="시장별 추세"></section>
-
     <div class="section-title"><h2>시장별 투자환경 구성</h2><p>KOSPI는 밸류에이션, KOSDAQ은 상대강도를 사용합니다.</p></div>
     <section class="valuation-grid" id="suitability-grid" aria-label="한국시장 최종 투자 적합도"></section>
+
+    <div class="section-title"><h2>한국 지수 추세</h2><p>KOSPI와 KOSDAQ의 동일한 중기 추세 규칙을 비교합니다.</p></div>
+    <section class="index-grid" id="index-grid" aria-label="시장별 추세"></section>
 
     <div class="section-title"><h2>밸류에이션·대체지표</h2><p>KOSPI 선행 PER은 점수에 반영하고 KOSDAQ 선행 PER은 참고용으로만 표시합니다.</p></div>
     <section class="valuation-grid" id="valuation-grid" aria-label="대표지수 밸류에이션"></section>
@@ -379,17 +373,12 @@
       신용·예탁금 15%, 한국 주식형 ETF 참여도 10%로 계산합니다.
     </aside>
 
-    <section class="future-grid" aria-label="추가 예정 분석">
-      <article class="card future-card"><div class="future-icon">◇</div><h3>미국시장</h3><p>미국 추세와 금융환경을 추가할 예정입니다.</p></article>
-      <article class="card future-card"><div class="future-icon">★</div><h3>KODEX TOP 5</h3><p>시장환경에 맞는 ETF 순위를 추가할 예정입니다.</p></article>
-    </section>
-
     <footer>본 화면은 투자환경 판단 보조자료이며 수익을 보장하지 않습니다.</footer>
   </main>
 
   <script>
     const fmt = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 2 });
-    const toneFor = score => score >= 60 ? "var(--good)" : score >= 40 ? "var(--warn)" : "var(--bad)";
+    const toneFor = score => score >= 60 ? "var(--good)" : score >= 45 ? "var(--warn)" : "var(--bad)";
     const signed = value => `${value >= 0 ? "+" : ""}${fmt.format(value)}%`;
     const contribution = (score, allocation) =>
       score === null || score === undefined ? `—/${allocation}점` : `${fmt.format(score * allocation / 100)}/${allocation}점`;
@@ -573,52 +562,6 @@
           <p class="summary">${item.market_comment || ""}</p>
           <p class="valuation-note">${item.method}</p>
         </article>` + detailCards;
-    }
-
-    function usMarketCards(item) {
-      if (!item || !item.available) {
-        return `<article class="card valuation-card"><p class="valuation-note">미국시장 분석 자료가 아직 없습니다.</p></article>`;
-      }
-      const trend = item.trend || {};
-      const sentiment = item.sentiment || {};
-      const breadth = sentiment.breadth || {};
-      const credit = sentiment.credit || {};
-      const rates = sentiment.rates || {};
-      const financial = sentiment.financial_conditions || {};
-      const indexCards = (trend.indexes || []).map(index => `
-        <article class="card valuation-card">
-          <div class="index-head">
-            <div><span class="label">${index.code}</span><h2 class="valuation-title">${index.name}</h2></div>
-            <span class="badge">${index.score}점 · ${index.status}</span>
-          </div>
-          <div class="metrics">
-            <div class="metric"><span class="label">3개월 수익률</span><strong>${signed(index.return_3_months_pct)}</strong></div>
-            <div class="metric"><span class="label">6개월 수익률</span><strong>${signed(index.return_6_months_pct)}</strong></div>
-            <div class="metric"><span class="label">20일 이격도</span><strong>${signed(index.distance_from_ma20_pct)}</strong></div>
-            <div class="metric"><span class="label">60일 이격도</span><strong>${signed(index.distance_from_ma60_pct)}</strong></div>
-          </div>
-        </article>`).join("");
-      return `
-        <article class="card valuation-card">
-          <div class="index-head">
-            <div><span class="label">3~6개월 미국시장</span><h2 class="valuation-title">${item.status}</h2></div>
-            <span class="badge">PER 제외</span>
-          </div>
-          <div class="valuation-value" style="color:${toneFor(item.preliminary_score)}">${item.preliminary_score}점</div>
-          <div class="metrics">
-            <div class="metric"><span class="label">추세</span><strong>${trend.score}점</strong></div>
-            <div class="metric"><span class="label">센티먼트·금융환경</span><strong>${sentiment.score}점</strong></div>
-            <div class="metric"><span class="label">상승 종목 비율</span><strong>${valueOrDash(breadth.advance_ratio_pct, "%")}</strong></div>
-            <div class="metric"><span class="label">VIX</span><strong>${valueOrDash((sentiment.vix || {}).value)}</strong></div>
-            <div class="metric"><span class="label">하이일드 스프레드</span><strong>${valueOrDash((credit.high_yield_spread || {}).value, "%")}</strong></div>
-            <div class="metric"><span class="label">NFCI</span><strong>${valueOrDash(financial.value)}</strong></div>
-            <div class="metric"><span class="label">10년 실질금리</span><strong>${valueOrDash((rates.real_yield_10y || {}).value, "%")}</strong></div>
-            <div class="metric"><span class="label">10Y-2Y 금리차</span><strong>${valueOrDash((rates.yield_curve_10y_2y || {}).value, "%p")}</strong></div>
-          </div>
-          ${sentiment.risk_guardrail ? `<p class="valuation-note">안전장치: ${sentiment.risk_guardrail}</p>` : ""}
-          <p class="valuation-note">${item.note || ""}</p>
-        </article>
-        ${indexCards}`;
     }
 
     function kodexCards(items) {
