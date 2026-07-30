@@ -274,6 +274,13 @@
     <section class="sentiment-grid" id="supplementary-grid" aria-label="센티먼트 추가지표"></section>
 
     <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF TOP 5"></section>
+    <aside class="method-note" aria-label="KODEX ETF 선별 기준">
+      <strong>KODEX TOP 5 선별 기준</strong><br>
+      국내 주식형 KODEX 전체 후보군(시장지수·테마·액티브·섹터·스마트베타·커버드콜)을
+      비교합니다. 레버리지·인버스·롱숏은 제외합니다.
+      시장환경 30%, 20일 모멘텀 25%, 60일 모멘텀 20%,
+      20·60일 이동평균 추세 15%, 변동성 10%를 반영합니다.
+    </aside>
     <aside class="method-note" aria-label="수급 지표 정의">
       <strong>수급 지표 정의</strong><br>
       수급은 외국인 순매수 금액과 기관 순매수 금액을 합친 값입니다.
@@ -443,6 +450,7 @@
           </div>
           <div class="metrics">
             <div class="metric"><span class="label">20일 모멘텀</span><strong>${signed(item.momentum_20d_pct)}</strong></div>
+            <div class="metric"><span class="label">60일 모멘텀</span><strong>${signed(item.momentum_60d_pct)}</strong></div>
             <div class="metric"><span class="label">20일 변동성</span><strong>${fmt.format(item.volatility_20d_pct)}%</strong></div>
           </div>
           <div class="keyword-list">
