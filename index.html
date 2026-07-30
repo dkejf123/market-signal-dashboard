@@ -306,6 +306,20 @@
       <p>S&amp;P 500·NASDAQ 100 추세와 시장 폭·VIX·신용·금융여건을 종합합니다.</p>
     </div>
     <section class="valuation-grid" id="us-market-grid" aria-label="미국시장 중기 투자환경"></section>
+    <div class="section-title">
+      <h2>미국 KODEX ETF 제안</h2>
+      <p>상품명에 ‘미국’이 포함된 KODEX 중 레버리지·인버스를 제외하고 한국시장과 같은 방식으로 평가합니다.</p>
+    </div>
+    <section class="valuation-grid" id="us-kodex-grid" aria-label="미국 KODEX ETF TOP 5"></section>
+    <div class="section-title">
+      <h2>미국 KODEX 개인수급 반영 TOP 3</h2>
+      <p>기존 적합도 70%와 순자산 대비 개인 순매수 강도 30%를 결합합니다.</p>
+    </div>
+    <section class="valuation-grid" id="us-personal-flow-grid" aria-label="미국 KODEX 개인수급 TOP 3"></section>
+    <details class="audit-panel">
+      <summary>전체 미국 KODEX 후보 평가표 보기</summary>
+      <div id="us-kodex-audit"></div>
+    </details>
 
     <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF TOP 5"></section>
     <div class="section-title"><h2>개인수급 반영 TOP 3</h2><p>기존 적합도와 순자산 대비 개인 순매수를 결합한 별도 상대순위입니다.</p></div>
@@ -659,6 +673,16 @@
           supplementaryCards(sentiment.supplementary || {});
         document.getElementById("us-market-grid").innerHTML =
           usMarketCards(data.market.united_states || {});
+        const unitedStates = data.market.united_states || {};
+        document.getElementById("us-kodex-grid").innerHTML =
+          kodexCards(unitedStates.kodex_top5 || []);
+        document.getElementById("us-personal-flow-grid").innerHTML =
+          personalFlowCards(unitedStates.kodex_personal_flow_top3 || []);
+        document.getElementById("us-kodex-audit").innerHTML =
+          auditTable(
+            unitedStates.kodex_universe || [],
+            unitedStates.kodex_universe_summary || {}
+          );
         document.getElementById("kodex-grid").innerHTML =
           kodexCards(korea.kodex_top5 || []);
         document.getElementById("personal-flow-grid").innerHTML =
