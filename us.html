@@ -184,13 +184,15 @@
   const signed = value => value == null ? "자료 없음" : `${value >= 0 ? "+" : ""}${fmt.format(value)}%`;
   const value = (input,suffix="") => input == null ? "자료 없음" : `${fmt.format(input)}${suffix}`;
   const tone = score => score >= 60 ? "var(--good)" : score >= 40 ? "var(--warn)" : "var(--bad)";
+  const contribution = (score, allocation) =>
+    score == null ? `—/${allocation}점` : `${fmt.format(score * allocation / 100)}/${allocation}점`;
 
   function marketCards(us) {
     const trend=us.trend||{}, sentiment=us.sentiment||{}, breadth=sentiment.breadth||{};
     const credit=sentiment.credit||{}, rates=sentiment.rates||{}, financial=sentiment.financial_conditions||{};
     const breadthText = breadth.advance_ratio_pct == null
-      ? "데이터 없음 · 50점 중립 대체"
-      : `${fmt.format(breadth.advance_ratio_pct)}% · ${breadth.score}점`;
+      ? "데이터 없음 · 중립 처리"
+      : `${fmt.format(breadth.advance_ratio_pct)}%`;
     const vix=(sentiment.vix||{}).value;
     const breadthSignal=breadth.advance_ratio_pct==null
       ? `<span class="signal warn">시장 폭 자료 없음</span>`
@@ -223,27 +225,29 @@
       <article class="card">
         <div class="head"><div><span class="label">구성 점수</span><h3>추세와 금융환경</h3></div></div>
         <div class="metrics">
-          <div class="metric"><span>추세</span><strong>${trend.score}/100점 (50%) · ${trend.status}</strong></div>
-          <div class="metric"><span>센티먼트·금융환경</span><strong>${sentiment.score}/100점 (50%) · ${sentiment.status}</strong></div>
+          <div class="metric"><span>추세</span><strong>${contribution(trend.score,50)} · ${trend.status}</strong></div>
+          <div class="metric"><span>센티먼트·금융환경</span><strong>${contribution(sentiment.score,50)} · ${sentiment.status}</strong></div>
         </div>
       </article>
       <article class="card">
         <div class="head"><div><span class="label">위험선호</span><h3>시장 폭·VIX</h3></div></div>
         <div class="metrics">
-          <div class="metric"><span>시장 폭</span><strong>${value(breadth.score,"/100점")} (25%)</strong></div>
+          <div class="metric"><span>시장 폭</span><strong>${contribution(breadth.score,25)}</strong></div>
           <div class="metric"><span>상승 종목 비율</span><strong>${breadthText}</strong></div>
-          <div class="metric"><span>VIX</span><strong>${value((sentiment.vix||{}).score,"/100점")} (20%) · 지수 ${value((sentiment.vix||{}).value)}</strong></div>
+          <div class="metric"><span>VIX 위험선호</span><strong>${contribution((sentiment.vix||{}).score,20)}</strong></div>
+          <div class="metric"><span>VIX 지수</span><strong>${value((sentiment.vix||{}).value)}</strong></div>
         </div>
         ${breadth.note ? `<p class="note">${breadth.note}</p>` : ""}
       </article>
       <article class="card">
         <div class="head"><div><span class="label">신용·금융여건</span><h3>시스템 위험</h3></div></div>
         <div class="metrics">
-          <div class="metric"><span>신용 스프레드</span><strong>${value(credit.score,"/100점")} (25%)</strong></div>
+          <div class="metric"><span>신용 스프레드</span><strong>${contribution(credit.score,25)}</strong></div>
           <div class="metric"><span>하이일드 스프레드</span><strong>${value(((credit.high_yield_spread)||{}).value,"%")}</strong></div>
           <div class="metric"><span>투자등급 스프레드</span><strong>${value(((credit.investment_grade_spread)||{}).value,"%")}</strong></div>
-          <div class="metric"><span>금융여건(NFCI)</span><strong>${value(financial.score,"/100점")} (20%) · ${value(financial.value)}</strong></div>
-          <div class="metric"><span>금리 환경</span><strong>${value(rates.score,"/100점")} (10%)</strong></div>
+          <div class="metric"><span>금융여건(NFCI)</span><strong>${contribution(financial.score,20)}</strong></div>
+          <div class="metric"><span>NFCI 지수</span><strong>${value(financial.value)}</strong></div>
+          <div class="metric"><span>금리 환경</span><strong>${contribution(rates.score,10)}</strong></div>
           <div class="metric"><span>10년 실질금리</span><strong>${value(((rates.real_yield_10y)||{}).value,"%")}</strong></div>
           <div class="metric"><span>10Y-2Y 금리차</span><strong>${value(((rates.yield_curve_10y_2y)||{}).value,"%p")}</strong></div>
         </div>
@@ -252,17 +256,13 @@
 
   function indexCard(item) {
     return `<article class="card">
-      <div class="head"><div><span class="label">${item.code}</span><h2>${item.name}</h2></div><span class="badge">${item.score}점 · ${item.status}</span></div>
+      <div class="head"><div><span class="label">${item.code}</span><h2>${item.name}</h2></div><span class="badge">${item.score}/100점 · ${item.status}</span></div>
       <div class="metrics">
-        <div class="metric"><span>20일선 상회</span><strong>${item.close > item.moving_average_20 ? 15 : 0}/15점 (15%)</strong></div>
-        <div class="metric"><span>60일선 상회</span><strong>${item.close > item.moving_average_60 ? 20 : 0}/20점 (20%)</strong></div>
-        <div class="metric"><span>20일선 &gt; 60일선</span><strong>${item.moving_average_20 > item.moving_average_60 ? 20 : 0}/20점 (20%)</strong></div>
-        <div class="metric"><span>60일선 기울기</span><strong>${item.ma60_slope_20d_pct > 0 ? 15 : 0}/15점 (15%)</strong></div>
-        <div class="metric"><span>3개월 수익률</span><strong>${item.return_3_months_pct > 0 ? 15 : 0}/15점 (15%)</strong></div>
-        <div class="metric"><span>6개월 수익률</span><strong>${item.return_6_months_pct > 0 ? 15 : 0}/15점 (15%)</strong></div>
         <div class="metric"><span>종가</span><strong>${value(item.close)}</strong></div>
         <div class="metric"><span>3개월 / 6개월</span><strong>${signed(item.return_3_months_pct)} / ${signed(item.return_6_months_pct)}</strong></div>
+        <div class="metric"><span>20일 / 60일 이동평균</span><strong>${value(item.moving_average_20)} / ${value(item.moving_average_60)}</strong></div>
         <div class="metric"><span>20일 / 60일 이격도</span><strong>${signed(item.distance_from_ma20_pct)} / ${signed(item.distance_from_ma60_pct)}</strong></div>
+        <div class="metric"><span>20일 / 60일선 기울기</span><strong>${signed(item.ma20_slope_20d_pct)} / ${signed(item.ma60_slope_20d_pct)}</strong></div>
         <div class="metric"><span>20일 변동성</span><strong>${value(item.realized_volatility_20d_pct,"%")}</strong></div>
       </div>
     </article>`;
@@ -270,22 +270,11 @@
 
   function etfCard(item) {
     const shownScore=item.strategy==="contrarian"?item.contrarian_score:item.score;
-    const componentRows=item.strategy==="contrarian"
-      ? `<div class="metric"><span>낙폭</span><strong>${item.drawdown_component_score}/100점 (30%)</strong></div>
-         <div class="metric"><span>반등</span><strong>${item.rebound_component_score}/100점 (25%)</strong></div>
-         <div class="metric"><span>과매도</span><strong>${item.oversold_component_score}/100점 (20%)</strong></div>
-         <div class="metric"><span>안정화</span><strong>${item.stabilization_component_score}/100점 (15%)</strong></div>
-         <div class="metric"><span>변동성 진정</span><strong>${item.calming_component_score}/100점 (10%)</strong></div>`
-      : `<div class="metric"><span>시장환경</span><strong>${item.environment_score}/100점 (30%)</strong></div>
-         <div class="metric"><span>20일 모멘텀</span><strong>${item.momentum_20d_score}/100점 (25%)</strong></div>
-         <div class="metric"><span>60일 모멘텀</span><strong>${item.momentum_60d_score}/100점 (20%)</strong></div>
-         <div class="metric"><span>추세</span><strong>${item.trend_component_score}/100점 (15%)</strong></div>
-         <div class="metric"><span>안정성</span><strong>${item.stability_score}/100점 (10%)</strong></div>`;
     return `<article class="card">
       <div class="head"><div><span class="label">${item.code}</span><h3>${item.name}</h3></div><span class="badge">${shownScore}점</span></div>
       <div class="metrics">
-        ${componentRows}
         <div class="metric"><span>20일 / 60일 모멘텀</span><strong>${signed(item.momentum_20d_pct)} / ${signed(item.momentum_60d_pct)}</strong></div>
+        <div class="metric"><span>20일선 / 60일선</span><strong>${item.above_ma20 ? "상회" : "하회"} / ${item.above_ma60 ? "상회" : "하회"}</strong></div>
         <div class="metric"><span>5일 수익률</span><strong>${signed(item.return_5d_pct)}</strong></div>
         <div class="metric"><span>60일 고점 대비</span><strong>${signed(item.drawdown_60d_pct)}</strong></div>
         <div class="metric"><span>RSI(14)</span><strong>${value(item.rsi_14)}</strong></div>
@@ -299,8 +288,6 @@
     return `<article class="card">
       <div class="head"><div><span class="label">${item.code}</span><h3>${item.name}</h3></div><span class="badge">${item.personal_adjusted_score}점</span></div>
       <div class="metrics">
-        <div class="metric"><span>기존 적합도</span><strong>${item.score}/100점 (70%)</strong></div>
-        <div class="metric"><span>개인수급 점수</span><strong>${item.personal_flow_score}/100점 (30%)</strong></div>
         <div class="metric"><span>순자산 대비 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
         <div class="metric"><span>순자산</span><strong>${value(item.net_assets_100m,"억원")}</strong></div>
       </div>

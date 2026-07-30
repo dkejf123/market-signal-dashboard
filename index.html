@@ -388,6 +388,8 @@
     const fmt = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 2 });
     const toneFor = score => score >= 60 ? "var(--good)" : score >= 40 ? "var(--warn)" : "var(--bad)";
     const signed = value => `${value >= 0 ? "+" : ""}${fmt.format(value)}%`;
+    const contribution = (score, allocation) =>
+      score === null || score === undefined ? `—/${allocation}점` : `${fmt.format(score * allocation / 100)}/${allocation}점`;
 
     function indexCard(item) {
       const returnClass3 = item.return_3_months_pct >= 0 ? "positive" : "negative";
@@ -396,15 +398,9 @@
         <article class="card index-card">
           <div class="index-head">
             <div><span class="label">${item.code}</span><h2 class="index-name">${item.name}</h2></div>
-            <span class="badge">${item.score}점 · ${item.status}</span>
+            <span class="badge">${item.score}/100점 · ${item.status}</span>
           </div>
           <div class="metrics">
-            <div class="metric"><span class="label">20일선 상회</span><strong>${item.close > item.moving_average_20 ? 15 : 0}/15점 (15%)</strong></div>
-            <div class="metric"><span class="label">60일선 상회</span><strong>${item.close > item.moving_average_60 ? 20 : 0}/20점 (20%)</strong></div>
-            <div class="metric"><span class="label">20일선 &gt; 60일선</span><strong>${item.moving_average_20 > item.moving_average_60 ? 20 : 0}/20점 (20%)</strong></div>
-            <div class="metric"><span class="label">60일선 기울기</span><strong>${item.ma60_slope_20d_pct > 0 ? 15 : 0}/15점 (15%)</strong></div>
-            <div class="metric"><span class="label">3개월 수익률</span><strong>${item.return_3_months_pct > 0 ? 15 : 0}/15점 (15%)</strong></div>
-            <div class="metric"><span class="label">6개월 수익률</span><strong>${item.return_6_months_pct > 0 ? 15 : 0}/15점 (15%)</strong></div>
             <div class="metric"><span class="label">현재 지수</span><strong>${fmt.format(item.close)}</strong></div>
             <div class="metric"><span class="label">50일 / 200일선</span><strong>${fmt.format(item.moving_average_50)} / ${fmt.format(item.moving_average_200)}</strong></div>
             <div class="metric"><span class="label">20일 / 60일 이동평균</span><strong>${fmt.format(item.moving_average_20)} / ${fmt.format(item.moving_average_60)}</strong></div>
@@ -431,8 +427,7 @@
       return value === null || value === undefined ? "—" : `${fmt.format(value)}${suffix}`;
     }
 
-    function valuationCard([key, item], suitability) {
-      const modelScore = ((suitability.markets || {}).kospi || {}).valuation_score;
+    function valuationCard([key, item]) {
       const finalText = item.final_forward_per === null
         ? "확정 보류"
         : `${fmt.format(item.final_forward_per)}배`;
@@ -444,7 +439,6 @@
           </div>
           <div class="valuation-value">${finalText}</div>
           <div class="metrics">
-            ${key === "kospi200" ? `<div class="metric"><span class="label">밸류에이션 점수</span><strong>${valueOrDash(modelScore, "/100점")} (30%)</strong></div>` : ""}
             <div class="metric"><span class="label">KIS 추정</span><strong>${valueOrDash(item.kis_forward_per, "배")}</strong></div>
             <div class="metric"><span class="label">외부 컨센서스</span><strong>${valueOrDash(item.external_forward_per, "배")}</strong></div>
             <div class="metric"><span class="label">KIS 유효 비중</span><strong>${valueOrDash(item.kis_coverage_pct, "%")}</strong></div>
@@ -462,12 +456,11 @@
             <div><span class="label">KOSDAQ/KOSPI</span><h2 class="valuation-title">KOSDAQ 상대강도</h2></div>
             <span class="badge">${item.status}</span>
           </div>
-          <div class="valuation-value">${item.score}/100점</div>
+          <div class="valuation-value">${contribution(item.score, 30)}</div>
           <div class="metrics">
-            <div class="metric"><span class="label">최종 반영</span><strong>${item.score}/100점 (30%)</strong></div>
-            <div class="metric"><span class="label">20일 상대수익률</span><strong>${item.score_20d}/100점 (35%) · ${signed(item.return_20d_pct)}</strong></div>
-            <div class="metric"><span class="label">60일 상대수익률</span><strong>${item.score_60d}/100점 (40%) · ${signed(item.return_60d_pct)}</strong></div>
-            <div class="metric"><span class="label">60일선 상회</span><strong>${item.trend_score}/100점 (25%)</strong></div>
+            <div class="metric"><span class="label">20일 상대수익률</span><strong>${signed(item.return_20d_pct)}</strong></div>
+            <div class="metric"><span class="label">60일 상대수익률</span><strong>${signed(item.return_60d_pct)}</strong></div>
+            <div class="metric"><span class="label">60일 이동평균</span><strong>${item.above_ma60 ? "상회" : "하회"}</strong></div>
           </div>
           <p class="valuation-note">${item.method}</p>
         </article>`;
@@ -479,17 +472,17 @@
         <article class="card sentiment-card">
           <div class="index-head">
             <div><span class="label">전일 시장 심리</span><h2 class="valuation-title">${item.name}</h2></div>
-            <span class="badge">${item.score}점 · ${item.status}</span>
+            <span class="badge">${item.score}/100점 · ${item.status}</span>
           </div>
           <div class="valuation-value" style="color:${tone}">${item.score}점</div>
           <div class="metrics">
-            <div class="metric"><span class="label">시장 폭 점수</span><strong>${valueOrDash(item.breadth_score, "/100점")} (35%)</strong></div>
-            <div class="metric"><span class="label">중기 수급 점수</span><strong>${valueOrDash(item.flow_score, "/100점")} (30%)</strong></div>
-            <div class="metric"><span class="label">변동성 안정 점수</span><strong>${valueOrDash(item.volatility_score, "/100점")} (20%)</strong></div>
+            <div class="metric"><span class="label">시장 폭</span><strong>${contribution(item.breadth_score, 35)}</strong></div>
             <div class="metric"><span class="label">상승 종목 비율</span><strong>${valueOrDash(item.advance_ratio_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">중기 수급</span><strong>${contribution(item.flow_score, 30)}</strong></div>
             <div class="metric"><span class="label">전일 수급 비율</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">5일 평균 수급</span><strong>${signed(item.smart_money_5d_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">20일 평균 수급</span><strong>${signed(item.smart_money_20d_ratio_pct)}</strong></div>
+            <div class="metric"><span class="label">변동성 안정</span><strong>${contribution(item.volatility_score, 20)}</strong></div>
             <div class="metric"><span class="label">20일 실현 변동성</span><strong>${valueOrDash(item.realized_volatility_20d_pct, "%")}</strong></div>
             <div class="metric"><span class="label">전일 등락률</span><strong>${signed(item.daily_return_pct)}</strong></div>
           </div>
@@ -503,10 +496,9 @@
         <article class="card sentiment-card">
           <div class="index-head">
             <div><span class="label">증시 유동성·레버리지</span><h2 class="valuation-title">신용·예탁금</h2></div>
-            <span class="badge">${funds.score}점 · ${funds.confidence}</span>
+            <span class="badge">${contribution(funds.score, 15)} · ${funds.confidence}</span>
           </div>
           <div class="metrics">
-            <div class="metric"><span class="label">신용·예탁금 점수</span><strong>${funds.score}/100점 (15%)</strong></div>
             <div class="metric"><span class="label">고객예탁금 5일 / 20일</span><strong>${signed(funds.deposit_5d_change_pct)} / ${signed(funds.deposit_20d_change_pct)}</strong></div>
             <div class="metric"><span class="label">신용잔고 5일 / 20일</span><strong>${signed(funds.credit_5d_change_pct)} / ${signed(funds.credit_20d_change_pct)}</strong></div>
             <div class="metric"><span class="label">신용 / 예탁금</span><strong>${fmt.format(funds.credit_to_deposit_pct)}%</strong></div>
@@ -524,12 +516,12 @@
         <article class="card valuation-card">
           <div class="index-head">
             <div><span class="label">3~6개월 투자 적합도</span><h2 class="valuation-title">${marketNames[key] || key}</h2></div>
-            <span class="badge">${market.score}점 · ${market.status}</span>
+            <span class="badge">${market.score}/100점 · ${market.status}</span>
           </div>
           <div class="metrics">
-            <div class="metric"><span class="label">추세</span><strong>${valueOrDash(market.trend_score, "/100점")} (40%)</strong></div>
-            <div class="metric"><span class="label">${market.component_mode === "relative_strength" ? "KOSDAQ/KOSPI 상대강도" : "밸류에이션"}</span><strong>${valueOrDash(market.component_mode === "relative_strength" ? market.relative_strength_score : market.valuation_score, "/100점")} (30%)</strong></div>
-            <div class="metric"><span class="label">센티먼트</span><strong>${valueOrDash(market.sentiment_score, "/100점")} (30%)</strong></div>
+            <div class="metric"><span class="label">추세</span><strong>${contribution(market.trend_score, 40)}</strong></div>
+            <div class="metric"><span class="label">${market.component_mode === "relative_strength" ? "상대강도" : "밸류에이션"}</span><strong>${contribution(market.component_mode === "relative_strength" ? market.relative_strength_score : market.valuation_score, 30)}</strong></div>
+            <div class="metric"><span class="label">센티먼트</span><strong>${contribution(market.sentiment_score, 30)}</strong></div>
             <div class="metric"><span class="label">데이터 신뢰도</span><strong>${market.confidence}</strong></div>
           </div>
         </article>`).join("");
@@ -600,22 +592,13 @@
             <span class="badge">${item.strategy === "contrarian" ? item.contrarian_score : item.score}점</span>
           </div>
           <div class="metrics">
-            ${item.strategy === "contrarian" ? `
-            <div class="metric"><span class="label">낙폭 매력</span><strong>${item.drawdown_component_score}/100점 (30%)</strong></div>
-            <div class="metric"><span class="label">5일 반등</span><strong>${item.rebound_component_score}/100점 (25%)</strong></div>
-            <div class="metric"><span class="label">RSI 과매도</span><strong>${item.oversold_component_score}/100점 (20%)</strong></div>
-            <div class="metric"><span class="label">단기 추세 안정</span><strong>${item.stabilization_component_score}/100점 (15%)</strong></div>
-            <div class="metric"><span class="label">변동성 진정</span><strong>${item.calming_component_score}/100점 (10%)</strong></div>` : `
-            <div class="metric"><span class="label">시장환경</span><strong>${item.environment_score}/100점 (30%)</strong></div>
-            <div class="metric"><span class="label">20일 모멘텀</span><strong>${item.momentum_20d_score}/100점 (25%)</strong></div>
-            <div class="metric"><span class="label">60일 모멘텀</span><strong>${item.momentum_60d_score}/100점 (20%)</strong></div>
-            <div class="metric"><span class="label">이동평균 추세</span><strong>${item.trend_component_score}/100점 (15%)</strong></div>
-            <div class="metric"><span class="label">변동성 안정</span><strong>${item.stability_score}/100점 (10%)</strong></div>`}
             <div class="metric"><span class="label">한투 시세 기준일</span><strong>${item.price_date || "-"}</strong></div>
             <div class="metric"><span class="label">종가</span><strong>${fmt.format(item.close || 0)}원</strong></div>
             <div class="metric"><span class="label">20일 모멘텀</span><strong>${signed(item.momentum_20d_pct)}</strong></div>
             <div class="metric"><span class="label">60일 모멘텀</span><strong>${signed(item.momentum_60d_pct)}</strong></div>
+            <div class="metric"><span class="label">20일선 / 60일선</span><strong>${item.above_ma20 ? "상회" : "하회"} / ${item.above_ma60 ? "상회" : "하회"}</strong></div>
             ${item.strategy === "contrarian" ? `<div class="metric"><span class="label">최근 5일 반등</span><strong>${signed(item.return_5d_pct)}</strong></div>
+            <div class="metric"><span class="label">60일 고점 대비</span><strong>${signed(item.drawdown_60d_pct)}</strong></div>
             <div class="metric"><span class="label">RSI(14)</span><strong>${fmt.format(item.rsi_14)}</strong></div>` : ""}
             <div class="metric"><span class="label">20일 변동성</span><strong>${fmt.format(item.volatility_20d_pct)}%</strong></div>
           </div>
@@ -686,8 +669,6 @@
             <span class="badge">${item.personal_adjusted_score}점</span>
           </div>
           <div class="metrics">
-            <div class="metric"><span class="label">기존 적합도</span><strong>${item.score}/100점 (70%)</strong></div>
-            <div class="metric"><span class="label">개인수급 점수</span><strong>${item.personal_flow_score}/100점 (30%)</strong></div>
             <div class="metric"><span class="label">순자산 대비 20일 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
             <div class="metric"><span class="label">ETF 순자산</span><strong>${fmt.format(item.net_assets_100m)}억원</strong></div>
           </div>
@@ -723,7 +704,7 @@
         const valuation = korea.valuation || {};
         const valuationItems = Object.entries(valuation.markets || {});
         document.getElementById("valuation-grid").innerHTML =
-          valuationItems.map(item => valuationCard(item, korea.suitability || {})).join("") +
+          valuationItems.map(valuationCard).join("") +
           relativeStrengthCard(korea.kosdaq_relative_strength);
         const sentiment = korea.sentiment || {};
         document.getElementById("sentiment-grid").innerHTML =

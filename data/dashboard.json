@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-30T19:10+09:00",
+  "updated_at": "2026-07-30T20:16+09:00",
   "market": {
     "korea": {
       "status": "강한 하락",
@@ -48,7 +48,7 @@
       ],
       "valuation": {
         "available": true,
-        "generated_at": "2026-07-30T18:52:36.797678+09:00",
+        "generated_at": "2026-07-30T19:56:54.050043+09:00",
         "markets": {
           "kospi200": {
             "index_key": "kospi200",
@@ -80,7 +80,7 @@
       },
       "sentiment": {
         "available": true,
-        "generated_at": "2026-07-30T18:53:59.127669+09:00",
+        "generated_at": "2026-07-30T19:58:16.479681+09:00",
         "overall_score": 26,
         "overall_status": "극단적 불안",
         "markets": [
@@ -4408,7 +4408,7 @@
     },
     "united_states": {
       "available": true,
-      "generated_at": "2026-07-30T18:55+09:00",
+      "generated_at": "2026-07-30T20:01+09:00",
       "status": "다소 적합",
       "preliminary_score": 68,
       "valuation_included": false,
@@ -4466,23 +4466,23 @@
         "risk_guardrail": null,
         "breadth": {
           "date": "2026-07-30",
-          "advancing": 1545,
-          "declining": 937,
-          "advance_ratio_pct": 62.25,
+          "advancing": 1732,
+          "declining": 1059,
+          "advance_ratio_pct": 62.06,
           "available": true,
           "exchanges": {
             "NAS": {
               "name": "NASDAQ",
-              "advancing": 1035,
-              "declining": 626,
-              "advance_ratio_pct": 62.31,
+              "advancing": 1155,
+              "declining": 681,
+              "advance_ratio_pct": 62.91,
               "available": true
             },
             "NYS": {
               "name": "NYSE",
-              "advancing": 510,
-              "declining": 311,
-              "advance_ratio_pct": 62.12,
+              "advancing": 577,
+              "declining": 378,
+              "advance_ratio_pct": 60.42,
               "available": true
             }
           },
@@ -4492,7 +4492,7 @@
         },
         "vix": {
           "date": "20260730",
-          "value": 19.54,
+          "value": 19.51,
           "score": 58
         },
         "credit": {
