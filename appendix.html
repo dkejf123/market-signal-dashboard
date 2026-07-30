@@ -4,159 +4,324 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Appendix · 지표와 점수 산출 근거</title>
+  <title>Appendix · 투자환경 점수 산출 근거</title>
   <style>
-    :root { --bg:#07111f; --panel:#0d1b2d; --line:#203650; --text:#eef5ff; --muted:#9cb0c8; --accent:#73a9ff; --good:#35d49a; --warn:#f4c45e; }
+    :root {
+      --bg:#07111f; --panel:#0d1b2d; --panel2:#12243a; --line:#203650;
+      --text:#eef5ff; --muted:#9cb0c8; --accent:#73a9ff;
+      --good:#35d49a; --warn:#f4c45e; --bad:#ff707d;
+    }
     * { box-sizing:border-box; }
-    body { margin:0; background:radial-gradient(circle at 90% 0,rgba(48,112,213,.22),transparent 32%),var(--bg); color:var(--text); font-family:Inter,Pretendard,"Noto Sans KR",system-ui,sans-serif; }
-    main { width:min(1100px,calc(100% - 32px)); margin:auto; padding:40px 0 70px; }
-    a { color:var(--accent); text-decoration:none; font-weight:700; }
-    h1 { font-size:clamp(30px,5vw,48px); margin:16px 0 10px; letter-spacing:-.04em; }
-    h2 { margin:0 0 14px; font-size:21px; }
-    h3 { color:var(--accent); margin:22px 0 8px; font-size:16px; }
-    p,li { color:var(--muted); line-height:1.72; }
-    .lead { max-width:820px; font-size:16px; }
-    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:22px; }
-    .card { padding:24px; background:linear-gradient(145deg,rgba(18,36,58,.96),rgba(11,27,46,.96)); border:1px solid var(--line); border-radius:20px; }
+    body {
+      margin:0; color:var(--text);
+      background:
+        radial-gradient(circle at 88% 0,rgba(48,112,213,.22),transparent 32%),
+        radial-gradient(circle at 0 35%,rgba(29,179,138,.1),transparent 28%),
+        var(--bg);
+      font-family:Inter,Pretendard,"Noto Sans KR",system-ui,sans-serif;
+    }
+    main { width:min(1120px,calc(100% - 32px)); margin:auto; padding:38px 0 68px; }
+    a { color:var(--accent); text-decoration:none; font-weight:750; }
+    .nav { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:28px; }
+    .nav a { padding:10px 13px; border:1px solid var(--line); border-radius:11px; background:rgba(13,27,45,.9); }
+    h1 { margin:0 0 10px; font-size:clamp(30px,5vw,48px); letter-spacing:-.04em; }
+    h2 { margin:0 0 14px; font-size:22px; }
+    h3 { margin:22px 0 8px; color:var(--accent); font-size:16px; }
+    p,li { color:var(--muted); line-height:1.7; }
+    .lead { max-width:900px; margin-bottom:28px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .card {
+      padding:23px; border:1px solid var(--line); border-radius:20px;
+      background:linear-gradient(145deg,rgba(18,36,58,.96),rgba(11,27,46,.96));
+    }
     .wide { grid-column:1/-1; }
+    .formula {
+      margin:12px 0; padding:14px; color:var(--text); font-weight:750; line-height:1.7;
+      border-radius:12px; background:rgba(115,169,255,.09);
+    }
+    .good { border-left:3px solid var(--good); padding-left:13px; }
+    .warning { border-left:3px solid var(--warn); padding-left:13px; }
     table { width:100%; border-collapse:collapse; margin-top:12px; font-size:13px; }
     th,td { padding:10px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
     th { color:var(--accent); }
-    td { color:var(--muted); }
-    .formula { padding:14px; border-radius:12px; background:rgba(115,169,255,.08); color:var(--text); font-weight:700; line-height:1.7; }
-    .tag { display:inline-block; margin:3px; padding:5px 9px; border-radius:999px; border:1px solid var(--line); color:var(--muted); font-size:12px; }
-    .warning { border-left:3px solid var(--warn); padding-left:14px; }
-    footer { margin-top:28px; color:var(--muted); font-size:12px; }
-    @media(max-width:760px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}.card{padding:18px}table{font-size:11px}}
+    td { color:var(--muted); line-height:1.55; }
+    .tag { display:inline-block; margin:3px; padding:5px 9px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:12px; }
+    footer { margin-top:28px; color:var(--muted); font-size:12px; text-align:center; }
+    @media(max-width:760px) {
+      .grid { grid-template-columns:1fr; }
+      .wide { grid-column:auto; }
+      .card { padding:18px; }
+      table { font-size:11px; }
+    }
   </style>
 </head>
 <body>
 <main>
-  <a href="./index.html">← 대시보드로 돌아가기</a>
-  <h1>지표와 점수 산출 근거</h1>
-  <p class="lead">이 페이지는 3~6개월 관점의 한국시장 투자 적합도와 KODEX ETF 순위가 어떤 데이터와 규칙으로 계산되는지 설명합니다. 모든 점수는 투자 판단을 보조하기 위한 상대적 신호이며 수익을 보장하지 않습니다.</p>
+  <nav class="nav">
+    <a href="./index.html">🇰🇷 한국시장</a>
+    <a href="./us.html">🇺🇸 미국시장</a>
+    <a href="./appendix.html">📘 Appendix</a>
+  </nav>
+
+  <h1>투자환경 점수 산출 근거</h1>
+  <p class="lead">
+    한국과 미국의 3~6개월 투자환경 점수, 위험 안전장치, KODEX ETF 순위를
+    계산하는 기준입니다. 모든 점수는 규칙 기반 보조지표이며 매수·매도 지시나
+    수익 보장이 아닙니다.
+  </p>
 
   <section class="grid">
     <article class="card wide">
-      <h2>1. 한국시장 최종 투자 적합도</h2>
-      <div class="formula">시장별 점수 = 추세 40% + 밸류에이션 30% + 센티먼트 30%<br>한국 종합 = KOSPI 환경 70% + KOSDAQ 환경 30%</div>
+      <h2>1. 국가별 모델 구조</h2>
       <table>
-        <thead><tr><th>점수</th><th>판정</th><th>의미</th></tr></thead>
+        <thead><tr><th>시장</th><th>구성</th><th>핵심 차이</th></tr></thead>
         <tbody>
-          <tr><td>75~100</td><td>매우 적합</td><td>중기 추세·가치·심리가 전반적으로 우호적</td></tr>
-          <tr><td>60~74</td><td>적합</td><td>투자 우위이나 일부 위험요인 확인 필요</td></tr>
-          <tr><td>45~59</td><td>중립</td><td>기회와 위험이 혼재</td></tr>
-          <tr><td>30~44</td><td>부적합</td><td>신규 주식 노출에 보수적 접근 필요</td></tr>
-          <tr><td>0~29</td><td>매우 부적합</td><td>하락 위험과 불안 심리가 매우 높은 구간</td></tr>
+          <tr>
+            <td>KOSPI</td>
+            <td>추세 40% + 12개월 선행 PER 30% + 센티먼트 30%</td>
+            <td>선행 PER의 데이터 신뢰도를 반영해 극단값을 중립 쪽으로 조정</td>
+          </tr>
+          <tr>
+            <td>KOSDAQ</td>
+            <td>추세 40% + KOSDAQ/KOSPI 상대강도 30% + 센티먼트 30%</td>
+            <td>불완전한 KOSDAQ 150 선행 PER은 참고 표시만 하고 점수에서 제외</td>
+          </tr>
+          <tr>
+            <td>미국</td>
+            <td>추세 50% + 센티먼트·금융환경 50%</td>
+            <td>안정적인 무료 선행 PER이 없어 밸류에이션을 억지로 대체하지 않음</td>
+          </tr>
         </tbody>
       </table>
+      <p class="formula">한국 종합점수 = KOSPI 환경 70% + KOSDAQ 환경 30%</p>
+      <p>
+        75점 이상 매우 적합, 60~74점 적합, 45~59점 중립,
+        30~44점 부적합, 29점 이하 매우 부적합으로 구분합니다.
+      </p>
     </article>
 
     <article class="card">
-      <h2>2. 중기 추세 점수</h2>
-      <p>지수 수정종가를 이용해 가격 위치, 이동평균 배열, 기울기와 기간 수익률을 합산합니다.</p>
+      <h2>2. 공통 중기 추세 점수</h2>
+      <p>한국 지수와 미국 지수에 동일한 100점 규칙을 적용합니다.</p>
       <table>
         <tbody>
-          <tr><td>종가가 20일선 위</td><td>15점</td></tr>
-          <tr><td>종가가 60일선 위</td><td>20점</td></tr>
-          <tr><td>20일선이 60일선 위</td><td>20점</td></tr>
-          <tr><td>60일선 20일 기울기 양수</td><td>15점</td></tr>
+          <tr><td>종가가 20일 이동평균 상회</td><td>15점</td></tr>
+          <tr><td>종가가 60일 이동평균 상회</td><td>20점</td></tr>
+          <tr><td>20일선이 60일선 상회</td><td>20점</td></tr>
+          <tr><td>60일선의 20일 기울기 양수</td><td>15점</td></tr>
           <tr><td>3개월 수익률 양수</td><td>15점</td></tr>
           <tr><td>6개월 수익률 양수</td><td>15점</td></tr>
         </tbody>
       </table>
-      <p>20일 실현 변동성은 추세 점수에 중복 가산하지 않고 센티먼트에서 사용합니다.</p>
+      <p>S&amp;P 500과 NASDAQ 100 추세는 각각 50%씩 미국 추세점수에 반영합니다.</p>
     </article>
 
     <article class="card">
-      <h2>3. 밸류에이션 점수</h2>
-      <p>KOSPI 200·KOSDAQ 150 상위 구성종목의 예상 EPS와 현재 가격으로 12개월 선행 PER을 추정합니다.</p>
+      <h2>3. KOSPI 밸류에이션</h2>
+      <p>
+        KODEX 200 상위 구성종목의 예상 EPS와 현재 가격으로 12개월 선행 PER을
+        추정합니다. 유효 이익 비중과 외부 검증 여부에 따라 신뢰도를 표시합니다.
+      </p>
       <table>
         <thead><tr><th>선행 PER</th><th>원점수</th></tr></thead>
         <tbody>
-          <tr><td>8배 이하</td><td>90</td></tr><tr><td>8~12배</td><td>75</td></tr>
-          <tr><td>12~16배</td><td>60</td></tr><tr><td>16~22배</td><td>45</td></tr>
-          <tr><td>22~30배</td><td>30</td></tr><tr><td>30배 초과</td><td>15</td></tr>
+          <tr><td>8배 이하</td><td>90</td></tr>
+          <tr><td>8~12배</td><td>75</td></tr>
+          <tr><td>12~16배</td><td>60</td></tr>
+          <tr><td>16~22배</td><td>45</td></tr>
+          <tr><td>22~30배</td><td>30</td></tr>
+          <tr><td>30배 초과</td><td>15</td></tr>
         </tbody>
       </table>
-      <p>데이터 신뢰도가 보통이면 원점수의 극단성을 75%, 낮음이면 50%로 줄여 중립값 50에 가깝게 조정합니다. 유효 데이터가 부족하면 확정 점수에서 제외합니다.</p>
-    </article>
-
-    <article class="card wide">
-      <h2>4. 센티먼트</h2>
-      <div class="formula">시장 폭 35% + 외국인·기관 중기 수급 30% + 20일 실현 변동성 20% + 신용·예탁금 15%</div>
-      <table>
-        <thead><tr><th>지표</th><th>정의</th><th>해석</th></tr></thead>
-        <tbody>
-          <tr><td>시장 폭</td><td>상승종목 수 ÷ 전체 유효 종목 수</td><td>소수 대형주가 아닌 시장 전반의 참여도를 측정</td></tr>
-          <tr><td>수급 비율</td><td>(외국인+기관 순매수) ÷ 시장 거래대금</td><td>양수는 순매수, 음수는 순매도 우위</td></tr>
-          <tr><td>중기 수급</td><td>1일 20% + 5일 40% + 20일 40%</td><td>하루의 잡음보다 지속성을 우선</td></tr>
-          <tr><td>실현 변동성</td><td>20일 일간 로그수익률 표준편차를 연율화</td><td>낮을수록 심리 안정 점수가 높음</td></tr>
-          <tr><td>신용·예탁금</td><td>고객예탁금 변화, 신용잔고 변화·비율·백분위</td><td>대기자금과 레버리지 과열 정도를 평가</td></tr>
-        </tbody>
-      </table>
-      <p>장중에는 완결되지 않은 상승·하락 종목 수를 사용하지 않습니다. 시장 폭이 없으면 사용 가능한 항목끼리 가중치를 재조정하고 신뢰도를 낮춥니다.</p>
+      <p class="warning">
+        KOSDAQ 150 선행 PER은 예상 EPS 결측과 상위종목 커버리지 부족 때문에
+        최종 점수에서 사용하지 않습니다.
+      </p>
     </article>
 
     <article class="card">
-      <h2>5. 현재 시장 적합형 ETF</h2>
-      <div class="formula">시장환경 30% + 20일 모멘텀 25% + 60일 모멘텀 20% + 20·60일선 추세 15% + 변동성 안정 10%</div>
-      <p>20일 모멘텀이 -10% 이하인 ETF는 원칙적으로 현재 적합형 TOP3에서 제외합니다. 나머지 후보를 종합점수와 모멘텀 순으로 정렬합니다.</p>
-      <span class="tag">현재 적합형 3개</span><span class="tag">상대순위</span><span class="tag">매수 추천 아님</span>
-    </article>
-
-    <article class="card">
-      <h2>6. 역발상 관찰 후보</h2>
-      <div class="formula">낙폭 매력 30% + 5일 반등 25% + RSI 과매도 20% + 5·10일선 안정 15% + 변동성 진정 10%</div>
-      <p>다음 안전조건을 모두 통과한 후보만 최대 2개 표시합니다.</p>
+      <h2>4. KOSDAQ 상대강도</h2>
+      <p>
+        한투 지수 일별시세로 매일 KOSDAQ 지수 ÷ KOSPI 지수 비율을 계산합니다.
+        코스닥이 대형주 시장보다 실제로 강한지 확인하는 위험선호 지표입니다.
+      </p>
+      <div class="formula">
+        상대강도 점수 = 20일 비율 변화 35% + 60일 비율 변화 40% +
+        현재 비율의 60일 이동평균 상회 여부 25%
+      </div>
       <ul>
-        <li>커버드콜이 아닐 것</li>
-        <li>20일 수익률이 -25% 초과, 0% 미만일 것</li>
-        <li>최근 5일 수익률이 플러스일 것</li>
-        <li>60일 고점 대비 낙폭이 -8% 이하일 것</li>
-        <li>RSI(14)가 25~50일 것</li>
-        <li>가격이 5일선 또는 10일선을 회복했을 것</li>
+        <li>20일 변화는 -5%에서 0점, +5%에서 100점</li>
+        <li>60일 변화는 -10%에서 0점, +10%에서 100점</li>
+        <li>현재 비율이 60일 평균 위면 100점, 아래면 0점</li>
       </ul>
-      <p class="warning">조건을 만족하지 않으면 2개를 억지로 채우지 않습니다. 역발상 후보는 고위험 관찰 대상입니다.</p>
+      <p>60점 이상 상대강도 우위, 40~59점 중립, 39점 이하 상대약세입니다.</p>
     </article>
 
-    <article class="card wide">
-      <h2>7. 개인수급 반영 TOP 3</h2>
-      <div class="formula">개인수급 조정점수 = 기존 ETF 적합도 70% + 개인수급 강도 30%</div>
-      <p>최근 완결된 20거래일의 개인 순매수 거래대금을 합산한 뒤 ETF 순자산총액으로 나누어 상품 규모를 보정합니다.</p>
-      <div class="formula">순자산 대비 개인순매수 비중(%) = 20일 개인 순매수 거래대금 합계(백만원) ÷ ETF 순자산총액(억원)</div>
-      <p>비중이 0~5%이면 점수를 높이되, 5%를 넘는 과도한 집중은 점진적으로 감점합니다. 개인 매수는 정보 우위를 의미하지 않을 수 있으므로 기존 추세·시장환경 점수를 70% 유지합니다.</p>
-      <p class="warning">개인수급 TOP3는 인기 순위나 매수 추천이 아닙니다. 급락 과정에서 개인 매수가 몰리는 경우가 있으므로 현재 적합형·역발상 결과와 함께 해석해야 합니다.</p>
-    </article>
-
-    <article class="card wide">
-      <h2>8. 데이터 출처와 계산값</h2>
+    <article class="card">
+      <h2>5. 한국시장 센티먼트</h2>
+      <div class="formula">
+        시장 폭 35% + 외국인·기관 중기 수급 30% +
+        20일 실현변동성 20% + 신용·예탁금 15%
+      </div>
       <table>
-        <thead><tr><th>구분</th><th>출처</th><th>사용 내용</th></tr></thead>
         <tbody>
-          <tr><td>한국 지수·ETF 가격</td><td>한국투자증권 Open API</td><td>거래일, 수정종가, 지수·ETF 기간별 시세</td></tr>
-          <tr><td>수급·시장자금</td><td>한국투자증권 Open API</td><td>개인·외국인·기관 순매수, 거래대금, ETF 순자산, 고객예탁금, 신용잔고</td></tr>
-          <tr><td>예상 실적</td><td>한국투자증권 Open API</td><td>구성종목 예상 EPS를 이용한 선행 PER 추정</td></tr>
-          <tr><td>KODEX 후보군</td><td>삼성자산운용 공식 상품 목록</td><td>국내 주식형 시장지수·테마·액티브·섹터·스마트베타·커버드콜</td></tr>
-          <tr><td>파생 계산</td><td>본 모델</td><td>수익률, 이동평균, RSI, 낙폭, 변동성, 점수와 순위</td></tr>
+          <tr><td>시장 폭</td><td>상승 종목 수 ÷ 전체 유효 종목 수</td></tr>
+          <tr><td>중기 수급</td><td>1일 20% + 5일 40% + 20일 40%</td></tr>
+          <tr><td>실현변동성</td><td>20일 일간 로그수익률 표준편차의 연율화</td></tr>
+          <tr><td>신용·예탁금</td><td>고객예탁금 변화, 신용잔고 변화·비율·백분위</td></tr>
         </tbody>
       </table>
-      <p>레버리지·인버스·롱숏·해외주식·채권·현금성 ETF는 현재 한국 주식형 후보군에서 제외합니다. 상품 목록은 신규 상장·상장폐지·명칭 변경에 맞춰 정기 갱신해야 합니다.</p>
+      <p>
+        장중 실행 등으로 시장 폭을 신뢰할 수 없으면 해당 항목을 제외하고
+        사용 가능한 항목의 가중치를 다시 정규화합니다.
+      </p>
     </article>
 
     <article class="card wide">
-      <h2>9. 해석 시 주의사항</h2>
+      <h2>6. 미국 센티먼트·금융환경</h2>
+      <div class="formula">
+        시장 폭 25% + VIX 20% + 신용 스프레드 25% +
+        NFCI 20% + 실질금리·장단기 금리차 10%
+      </div>
+      <table>
+        <thead><tr><th>지표</th><th>출처</th><th>해석 및 점수 방향</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>NASDAQ·NYSE 상승 종목 비율</td>
+            <td>한국투자증권 Open API</td>
+            <td>20% 이하 0점, 70% 이상 100점. 시장 참여 폭 측정</td>
+          </tr>
+          <tr>
+            <td>VIX</td>
+            <td>한국투자증권 Open API</td>
+            <td>12 이하 100점, 30 이상 0점. 높을수록 위험회피</td>
+          </tr>
+          <tr>
+            <td>하이일드·투자등급 스프레드</td>
+            <td>FRED</td>
+            <td>스프레드가 낮을수록 신용시장 안정</td>
+          </tr>
+          <tr>
+            <td>NFCI</td>
+            <td>FRED</td>
+            <td>음수는 평균보다 완화적, 양수는 긴축적 금융여건</td>
+          </tr>
+          <tr>
+            <td>10년 실질금리·10Y-2Y</td>
+            <td>FRED</td>
+            <td>실질금리가 낮고 장단기 금리차가 정상일수록 우호적</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>위험 안전장치</h3>
       <ul>
-        <li>점수는 3~6개월 투자환경을 정리한 규칙 기반 지표이며 목표수익률이나 손실확률이 아닙니다.</li>
-        <li>낮은 PER은 이익 정점, 업황 악화 또는 추정치 오류 때문에 나타날 수 있습니다.</li>
-        <li>과매도와 낮은 RSI만으로 반등을 보장할 수 없습니다.</li>
-        <li>커버드콜은 분배와 옵션 프리미엄 때문에 일반 주식형 ETF와 가격 특성이 다릅니다.</li>
-        <li>API 조회 실패와 낮은 데이터 커버리지는 신뢰도를 낮추므로 전체 후보 평가표에서 반드시 확인해야 합니다.</li>
-        <li>향후 역사적 백테스트를 통해 가중치와 경계값을 재검증해야 합니다.</li>
+        <li>상승 종목 비율 35% 미만과 VIX 20 이상이 동시에 발생하면 센티먼트 상한 54점</li>
+        <li>상승 종목 비율 25% 미만 또는 VIX 30 이상이면 센티먼트 상한 39점</li>
+        <li>시장 폭 API가 세 차례 모두 0건이면 시장 폭만 50점으로 중립 대체하고 전체 계산은 계속</li>
+      </ul>
+      <p class="good">
+        신용시장과 NFCI가 좋아도 시장 폭과 VIX가 동시에 악화되면 낙관 판정을
+        내리지 않도록 설계했습니다.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>7. 현재 적합 ETF</h2>
+      <div class="formula">
+        시장환경 30% + 20일 모멘텀 25% + 60일 모멘텀 20% +
+        20·60일선 추세 15% + 변동성 안정 10%
+      </div>
+      <p>
+        20일 모멘텀이 -10% 이하인 상품은 원칙적으로 현재 적합 TOP3에서
+        제외합니다. 나머지 후보는 종합점수와 모멘텀 순으로 정렬합니다.
+      </p>
+      <span class="tag">현재 적합 TOP3</span>
+      <span class="tag">상대순위</span>
+      <span class="tag">매수 추천 아님</span>
+    </article>
+
+    <article class="card">
+      <h2>8. 역발상 관찰 후보</h2>
+      <div class="formula">
+        낙폭 매력 30% + 5일 반등 25% + RSI 과매도 20% +
+        5·10일선 안정 15% + 변동성 진정 10%
+      </div>
+      <ul>
+        <li>커버드콜 제외</li>
+        <li>20일 수익률 -25% 초과, 0% 미만</li>
+        <li>최근 5일 수익률 양수</li>
+        <li>60일 고점 대비 낙폭 -8% 이하</li>
+        <li>RSI(14) 25~50 및 5일선 또는 10일선 회복</li>
+      </ul>
+      <p>조건을 통과한 상품만 최대 2개 표시하며 빈자리를 억지로 채우지 않습니다.</p>
+    </article>
+
+    <article class="card wide">
+      <h2>9. 개인수급 반영 TOP3</h2>
+      <div class="formula">
+        개인수급 조정점수 = 기존 ETF 적합도 70% + 개인수급 강도 30%
+      </div>
+      <p>
+        최근 20거래일 개인 순매수 거래대금을 ETF 순자산으로 나눠 상품 규모를
+        보정합니다. 0~5% 순매수는 가점하지만 5%를 넘는 과도한 쏠림은 점차
+        감점합니다.
+      </p>
+      <p class="warning">
+        개인 매수는 정보 우위를 의미하지 않으므로 기존 추세·시장환경 점수를
+        70% 유지합니다.
+      </p>
+    </article>
+
+    <article class="card wide">
+      <h2>10. ETF 후보군</h2>
+      <table>
+        <thead><tr><th>구분</th><th>선별 기준</th><th>공통 제외</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>한국 KODEX</td>
+            <td>등록된 국내 주식형 KODEX 시장지수·업종·테마·액티브·스마트베타·커버드콜</td>
+            <td rowspan="2">레버리지·인버스 제외, 커버드콜 포함</td>
+          </tr>
+          <tr>
+            <td>미국 KODEX</td>
+            <td>한투 KOSPI 종목마스터에서 상품명에 ‘KODEX’와 ‘미국’이 모두 포함된 상품을 매일 자동 추출</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        신규 상장으로 20거래일 가격이 확보되지 않은 상품은 해당 실행에서
+        평가 실패로 기록되고 순위에서 제외됩니다.
+      </p>
+    </article>
+
+    <article class="card wide">
+      <h2>11. 데이터 출처와 결측 처리</h2>
+      <table>
+        <thead><tr><th>데이터</th><th>출처</th><th>결측·오류 처리</th></tr></thead>
+        <tbody>
+          <tr><td>한국·미국 지수, VIX, ETF 가격·수급·순자산</td><td>한국투자증권 Open API</td><td>재시도 후 실패 항목과 종목을 감사표에 기록</td></tr>
+          <tr><td>한국 ETF 및 미국 ETF 종목명·코드</td><td>한투 KOSPI 종목마스터 / 등록 후보목록</td><td>신규·폐지·명칭 변경을 실행 시 반영</td></tr>
+          <tr><td>미국 신용·금리·NFCI</td><td>FRED API</td><td>유효 최신 관측치 사용, 기준일 함께 저장</td></tr>
+          <tr><td>KOSPI 예상 EPS</td><td>한국투자증권 Open API</td><td>커버리지와 신뢰도에 따라 점수 조정</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="card wide">
+      <h2>12. 해석 시 주의사항</h2>
+      <ul>
+        <li>점수는 3~6개월 환경을 정리한 규칙 기반 지표이며 미래 수익률의 확률이나 목표수익률이 아닙니다.</li>
+        <li>상대강도는 밸류에이션이 아니라 위험선호와 시장 주도권을 측정하는 대체 축입니다.</li>
+        <li>저평가 자산도 장기간 하락할 수 있고 고평가 자산도 실적 성장으로 상승할 수 있습니다.</li>
+        <li>커버드콜은 분배금과 옵션 프리미엄 때문에 일반 주식형 ETF와 가격 특성이 다릅니다.</li>
+        <li>ETF 순위는 후보군 내부 상대순위이며 투자자의 손실감내도·세금·보유기간을 반영하지 않습니다.</li>
+        <li>가중치와 경계값은 충분한 실시간 축적 이후 백테스트와 워크포워드 검증이 필요합니다.</li>
       </ul>
     </article>
   </section>
-  <footer>최종 업데이트 기준은 대시보드에 표시됩니다. 본 자료는 투자 권유가 아닙니다.</footer>
+
+  <footer>최종 데이터 기준일은 각 국가별 대시보드에 표시됩니다. 본 자료는 투자 권유가 아닙니다.</footer>
 </main>
 </body>
 </html>
