@@ -280,6 +280,10 @@
       비교합니다. 레버리지·인버스·롱숏은 제외합니다.
       시장환경 30%, 20일 모멘텀 25%, 60일 모멘텀 20%,
       20·60일 이동평균 추세 15%, 변동성 10%를 반영합니다.
+      현재 적합형 3개와, 낙폭 이후 5일 반등·RSI·단기 추세 안정이 확인된
+      역발상 관찰 후보를 최대 2개까지 별도로 표시합니다.
+      가격 원자료는 한국투자증권 Open API의 국내주식 기간별시세이며,
+      모멘텀·RSI·이동평균·낙폭·변동성은 해당 수정종가로 모델이 계산합니다.
     </aside>
     <aside class="method-note" aria-label="수급 지표 정의">
       <strong>수급 지표 정의</strong><br>
@@ -442,22 +446,34 @@
 
     function kodexCards(items) {
       if (!items.length) return "";
-      return items.map(item => `
+      const cards = group => group.map(item => `
         <article class="card valuation-card">
           <div class="index-head">
-            <div><span class="label">KODEX TOP ${item.rank} · ${item.code}</span><h2 class="valuation-title">${item.name}</h2></div>
-            <span class="badge">${item.score}점</span>
+            <div><span class="label">${item.strategy === "contrarian" ? "역발상" : "현재 적합"} TOP ${item.rank} · ${item.code}</span><h2 class="valuation-title">${item.name}</h2></div>
+            <span class="badge">${item.strategy === "contrarian" ? item.contrarian_score : item.score}점</span>
           </div>
           <div class="metrics">
+            <div class="metric"><span class="label">한투 시세 기준일</span><strong>${item.price_date || "-"}</strong></div>
+            <div class="metric"><span class="label">종가</span><strong>${fmt.format(item.close || 0)}원</strong></div>
             <div class="metric"><span class="label">20일 모멘텀</span><strong>${signed(item.momentum_20d_pct)}</strong></div>
             <div class="metric"><span class="label">60일 모멘텀</span><strong>${signed(item.momentum_60d_pct)}</strong></div>
+            ${item.strategy === "contrarian" ? `<div class="metric"><span class="label">최근 5일 반등</span><strong>${signed(item.return_5d_pct)}</strong></div>
+            <div class="metric"><span class="label">RSI(14)</span><strong>${fmt.format(item.rsi_14)}</strong></div>` : ""}
             <div class="metric"><span class="label">20일 변동성</span><strong>${fmt.format(item.volatility_20d_pct)}%</strong></div>
           </div>
           <div class="keyword-list">
             ${(item.keywords || []).map(keyword => `<span class="keyword">#${keyword}</span>`).join("")}
           </div>
+          <p class="valuation-note">원자료: ${item.data_source || "한국투자증권 Open API"} · ${item.source_endpoint || "국내주식 기간별시세"}</p>
           <p class="valuation-note">${item.reason}</p>
         </article>`).join("");
+      const current = items.filter(item => item.strategy !== "contrarian");
+      const contrarian = items.filter(item => item.strategy === "contrarian");
+      return `
+        <div class="section-title"><h2>현재 시장 적합형 TOP 3</h2></div>
+        ${cards(current)}
+        <div class="section-title"><h2>역발상 관찰 후보 TOP 2</h2><p>고위험 관찰 후보이며 매수 추천이 아닙니다.</p></div>
+        ${contrarian.length ? cards(contrarian) : `<article class="card valuation-card"><p class="valuation-note">현재 조건을 충족한 역발상 후보가 없습니다.</p></article>`}`;
     }
 
     fetch("./data/dashboard.json", { cache: "no-store" })
