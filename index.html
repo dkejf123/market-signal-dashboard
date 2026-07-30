@@ -599,11 +599,12 @@
     }
 
     function auditTable(items, summary) {
-      if (!items.length) return `<p class="audit-summary">전체 후보 평가자료가 아직 없습니다.</p>`;
+      const failedItems = summary.failures || [];
+      if (!items.length && !failedItems.length) return `<p class="audit-summary">전체 후보 평가자료가 아직 없습니다.</p>`;
       const statusClass = status =>
         status.includes("역발상") ? "contrarian" :
         status.includes("선정") && !status.includes("미선정") ? "selected" : "";
-      const rows = items.map((item, index) => `
+      const evaluatedRows = items.map((item, index) => `
         <tr>
           <td>${index + 1}</td>
           <td>${item.code}</td>
@@ -620,7 +621,17 @@
           <td>${fmt.format(item.rsi_14)}</td>
           <td>${item.selection_reason || "-"}</td>
         </tr>`).join("");
-      const failures = (summary.failures || []).map(item =>
+      const failedRows = failedItems.map((item, index) => `
+        <tr>
+          <td>${items.length + index + 1}</td>
+          <td>${item.code}</td>
+          <td>${item.name}</td>
+          <td>평가 불가</td>
+          <td>—</td><td>—</td><td>—</td><td>—</td>
+          <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+          <td>${item.reason || "가격·수급 자료 부족"}</td>
+        </tr>`).join("");
+      const failures = failedItems.map(item =>
         `${item.name}(${item.code}): ${item.reason}`
       ).join("<br>");
       return `
@@ -630,14 +641,14 @@
           조회 실패 ${summary.failed_count || 0}개 ·
           원자료 ${summary.source || "한국투자증권 Open API"}
         </p>
-        ${failures ? `<p class="audit-summary"><strong>조회 실패:</strong><br>${failures}</p>` : ""}
+        ${failures ? `<p class="audit-summary"><strong>평가 불가:</strong><br>${failures}</p>` : ""}
         <div class="table-wrap"><table class="audit-table">
           <thead><tr>
             <th>#</th><th>코드</th><th>ETF</th><th>상태</th>
             <th>현재점수</th><th>역발상</th><th>개인수급점수</th><th>순자산대비 개인</th><th>5일</th><th>20일</th>
             <th>60일</th><th>고점대비</th><th>RSI</th><th>선정·탈락 사유</th>
           </tr></thead>
-          <tbody>${rows}</tbody>
+          <tbody>${evaluatedRows}${failedRows}</tbody>
         </table></div>`;
     }
 
