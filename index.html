@@ -62,6 +62,31 @@
       font-size: 13px;
       text-align: right;
     }
+    .header-links { text-align: right; }
+    .page-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .audit-panel {
+      margin-top: 16px;
+      padding: 20px;
+      background: rgba(13, 27, 45, .92);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .audit-panel summary { cursor: pointer; font-weight: 800; color: var(--accent); }
+    .audit-summary { margin: 14px 0; color: var(--muted); font-size: 13px; }
+    .table-wrap { overflow-x: auto; }
+    .audit-table { width: 100%; min-width: 1050px; border-collapse: collapse; font-size: 12px; }
+    .audit-table th, .audit-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; }
+    .audit-table th { color: var(--muted); position: sticky; top: 0; background: var(--panel); }
+    .audit-table th:nth-child(-n+3), .audit-table td:nth-child(-n+3), .audit-table td:last-child { text-align: left; }
+    .audit-table .selected { color: var(--good); font-weight: 800; }
+    .audit-table .contrarian { color: var(--warn); font-weight: 800; }
     .hero-grid, .index-grid, .valuation-grid, .sentiment-grid, .future-grid {
       display: grid;
       gap: 16px;
@@ -225,7 +250,10 @@
         <p class="eyebrow">3–6 month market signal</p>
         <h1>중기 투자환경</h1>
       </div>
-      <p class="updated" id="updated">데이터를 불러오는 중입니다.</p>
+      <div class="header-links">
+        <p class="updated" id="updated">데이터를 불러오는 중입니다.</p>
+        <a class="page-link" href="./appendix.html">지표·점수 산출 근거 Appendix →</a>
+      </div>
     </header>
 
     <div class="error" id="error"></div>
@@ -274,6 +302,10 @@
     <section class="sentiment-grid" id="supplementary-grid" aria-label="센티먼트 추가지표"></section>
 
     <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF TOP 5"></section>
+    <details class="audit-panel">
+      <summary>전체 KODEX 후보 평가표 보기</summary>
+      <div id="kodex-audit"></div>
+    </details>
     <aside class="method-note" aria-label="KODEX ETF 선별 기준">
       <strong>KODEX TOP 5 선별 기준</strong><br>
       국내 주식형 KODEX 전체 후보군(시장지수·테마·액티브·섹터·스마트베타·커버드콜)을
@@ -476,6 +508,47 @@
         ${contrarian.length ? cards(contrarian) : `<article class="card valuation-card"><p class="valuation-note">현재 조건을 충족한 역발상 후보가 없습니다.</p></article>`}`;
     }
 
+    function auditTable(items, summary) {
+      if (!items.length) return `<p class="audit-summary">전체 후보 평가자료가 아직 없습니다.</p>`;
+      const statusClass = status =>
+        status.includes("역발상") ? "contrarian" :
+        status.includes("선정") && !status.includes("미선정") ? "selected" : "";
+      const rows = items.map((item, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${item.code}</td>
+          <td>${item.name}</td>
+          <td class="${statusClass(item.selection_status || "")}">${item.selection_status || "미선정"}</td>
+          <td>${item.score}</td>
+          <td>${item.contrarian_score}</td>
+          <td>${signed(item.return_5d_pct)}</td>
+          <td>${signed(item.momentum_20d_pct)}</td>
+          <td>${signed(item.momentum_60d_pct)}</td>
+          <td>${signed(item.drawdown_60d_pct)}</td>
+          <td>${fmt.format(item.rsi_14)}</td>
+          <td>${item.selection_reason || "-"}</td>
+        </tr>`).join("");
+      const failures = (summary.failures || []).map(item =>
+        `${item.name}(${item.code}): ${item.reason}`
+      ).join("<br>");
+      return `
+        <p class="audit-summary">
+          등록 ${summary.registered_count || items.length}개 ·
+          평가 성공 ${summary.evaluated_count || items.length}개 ·
+          조회 실패 ${summary.failed_count || 0}개 ·
+          원자료 ${summary.source || "한국투자증권 Open API"}
+        </p>
+        ${failures ? `<p class="audit-summary"><strong>조회 실패:</strong><br>${failures}</p>` : ""}
+        <div class="table-wrap"><table class="audit-table">
+          <thead><tr>
+            <th>#</th><th>코드</th><th>ETF</th><th>상태</th>
+            <th>현재점수</th><th>역발상</th><th>5일</th><th>20일</th>
+            <th>60일</th><th>고점대비</th><th>RSI</th><th>선정·탈락 사유</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>`;
+    }
+
     fetch("./data/dashboard.json", { cache: "no-store" })
       .then(response => {
         if (!response.ok) throw new Error("대시보드 데이터가 아직 생성되지 않았습니다.");
@@ -511,6 +584,8 @@
           supplementaryCards(sentiment.supplementary || {});
         document.getElementById("kodex-grid").innerHTML =
           kodexCards(korea.kodex_top5 || []);
+        document.getElementById("kodex-audit").innerHTML =
+          auditTable(korea.kodex_universe || [], korea.kodex_universe_summary || {});
       })
       .catch(error => {
         const box = document.getElementById("error");
