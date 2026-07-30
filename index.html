@@ -302,6 +302,8 @@
     <section class="sentiment-grid" id="supplementary-grid" aria-label="센티먼트 추가지표"></section>
 
     <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF TOP 5"></section>
+    <div class="section-title"><h2>개인수급 반영 TOP 3</h2><p>기존 적합도와 순자산 대비 개인 순매수를 결합한 별도 상대순위입니다.</p></div>
+    <section class="valuation-grid" id="personal-flow-grid" aria-label="개인수급 반영 KODEX TOP 3"></section>
     <details class="audit-panel">
       <summary>전체 KODEX 후보 평가표 보기</summary>
       <div id="kodex-audit"></div>
@@ -521,6 +523,8 @@
           <td class="${statusClass(item.selection_status || "")}">${item.selection_status || "미선정"}</td>
           <td>${item.score}</td>
           <td>${item.contrarian_score}</td>
+          <td>${item.personal_adjusted_score ?? "-"}</td>
+          <td>${item.personal_net_buy_ratio_20d_pct == null ? "-" : signed(item.personal_net_buy_ratio_20d_pct)}</td>
           <td>${signed(item.return_5d_pct)}</td>
           <td>${signed(item.momentum_20d_pct)}</td>
           <td>${signed(item.momentum_60d_pct)}</td>
@@ -542,11 +546,30 @@
         <div class="table-wrap"><table class="audit-table">
           <thead><tr>
             <th>#</th><th>코드</th><th>ETF</th><th>상태</th>
-            <th>현재점수</th><th>역발상</th><th>5일</th><th>20일</th>
+            <th>현재점수</th><th>역발상</th><th>개인수급점수</th><th>순자산대비 개인</th><th>5일</th><th>20일</th>
             <th>60일</th><th>고점대비</th><th>RSI</th><th>선정·탈락 사유</th>
           </tr></thead>
           <tbody>${rows}</tbody>
         </table></div>`;
+    }
+
+    function personalFlowCards(items) {
+      if (!items.length) return `<article class="card valuation-card"><p class="valuation-note">개인수급 유효자료가 없습니다.</p></article>`;
+      return items.map(item => `
+        <article class="card valuation-card">
+          <div class="index-head">
+            <div><span class="label">개인수급 TOP ${item.rank} · ${item.code}</span><h2 class="valuation-title">${item.name}</h2></div>
+            <span class="badge">${item.personal_adjusted_score}점</span>
+          </div>
+          <div class="metrics">
+            <div class="metric"><span class="label">기존 적합도</span><strong>${item.score}점</strong></div>
+            <div class="metric"><span class="label">개인수급 점수</span><strong>${item.personal_flow_score}점</strong></div>
+            <div class="metric"><span class="label">순자산 대비 20일 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
+            <div class="metric"><span class="label">ETF 순자산</span><strong>${fmt.format(item.net_assets_100m)}억원</strong></div>
+          </div>
+          <div class="keyword-list">${(item.keywords || []).map(keyword => `<span class="keyword">#${keyword}</span>`).join("")}</div>
+          <p class="valuation-note">${item.reason}</p>
+        </article>`).join("");
     }
 
     fetch("./data/dashboard.json", { cache: "no-store" })
@@ -584,6 +607,8 @@
           supplementaryCards(sentiment.supplementary || {});
         document.getElementById("kodex-grid").innerHTML =
           kodexCards(korea.kodex_top5 || []);
+        document.getElementById("personal-flow-grid").innerHTML =
+          personalFlowCards(korea.kodex_personal_flow_top3 || []);
         document.getElementById("kodex-audit").innerHTML =
           auditTable(korea.kodex_universe || [], korea.kodex_universe_summary || {});
       })
