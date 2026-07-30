@@ -94,6 +94,16 @@
       color: #fff;
       background: linear-gradient(135deg, var(--accent), #276fe7);
     }
+    .reading-order {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .reading-order strong { color: var(--text); }
     .audit-panel {
       margin-top: 16px;
       padding: 20px;
@@ -288,6 +298,10 @@
 
     <div class="error" id="error"></div>
 
+    <div class="reading-order">
+      <strong>한눈에 보는 순서</strong><span>① 종합판정</span><span>→</span>
+      <span>② 추세·시장심리</span><span>→</span><span>③ ETF 후보</span>
+    </div>
     <section class="hero-grid" aria-label="한국시장 요약">
       <article class="card hero">
         <div class="hero-main">
@@ -425,7 +439,7 @@
         <article class="card valuation-card">
           <div class="index-head">
             <div><span class="label">12M Forward PER</span><h2 class="valuation-title">${valuationNames[key] || key}</h2></div>
-            <span class="badge">${item.confidence} · ${methodNames[item.method] || item.method}</span>
+            <span class="badge">${key === "kosdaq150" ? "점수 미반영 · 참고용" : `${item.confidence} · ${methodNames[item.method] || item.method}`}</span>
           </div>
           <div class="valuation-value">${finalText}</div>
           <div class="metrics">
@@ -491,7 +505,7 @@
           </div>
           <div class="metrics">
             <div class="metric"><span class="label">추세</span><strong>${valueOrDash(market.trend_score, "점")}</strong></div>
-            <div class="metric"><span class="label">밸류에이션</span><strong>${valueOrDash(market.valuation_score, "점")}</strong></div>
+            <div class="metric"><span class="label">${market.component_mode === "relative_strength" ? "KOSDAQ/KOSPI 상대강도" : "밸류에이션"}</span><strong>${valueOrDash(market.component_mode === "relative_strength" ? market.relative_strength_score : market.valuation_score, "점")}</strong></div>
             <div class="metric"><span class="label">센티먼트</span><strong>${valueOrDash(market.sentiment_score, "점")}</strong></div>
             <div class="metric"><span class="label">데이터 신뢰도</span><strong>${market.confidence}</strong></div>
           </div>
