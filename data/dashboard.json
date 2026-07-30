@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-30T11:37+09:00",
+  "updated_at": "2026-07-30T12:01+09:00",
   "market": {
     "korea": {
       "status": "강한 하락",
@@ -9,19 +9,19 @@
           "name": "KOSPI",
           "code": "0001",
           "trading_date": "20260730",
-          "close": 5730.81,
-          "moving_average_50": 7769.6,
-          "moving_average_200": 5719.21,
-          "moving_average_20": 6962.52,
-          "moving_average_60": 7734.83,
-          "distance_from_ma20_pct": -17.69,
-          "distance_from_ma60_pct": -25.91,
-          "ma20_slope_20d_pct": -17.39,
-          "ma60_slope_20d_pct": 3.71,
-          "realized_volatility_20d_pct": 83.02,
+          "close": 5655.4,
+          "moving_average_50": 7768.09,
+          "moving_average_200": 5718.83,
+          "moving_average_20": 6958.75,
+          "moving_average_60": 7733.57,
+          "distance_from_ma20_pct": -18.73,
+          "distance_from_ma60_pct": -26.87,
+          "ma20_slope_20d_pct": -17.43,
+          "ma60_slope_20d_pct": 3.7,
+          "realized_volatility_20d_pct": 82.51,
           "volatility_score": 0,
-          "return_3_months_pct": -13.37,
-          "return_6_months_pct": 15.71,
+          "return_3_months_pct": -14.51,
+          "return_6_months_pct": 14.19,
           "score": 30,
           "status": "하락 우위"
         },
@@ -29,44 +29,44 @@
           "name": "KOSDAQ",
           "code": "1001",
           "trading_date": "20260730",
-          "close": 655.78,
-          "moving_average_50": 916.41,
-          "moving_average_200": 997.73,
-          "moving_average_20": 780.81,
-          "moving_average_60": 960.78,
-          "distance_from_ma20_pct": -16.01,
-          "distance_from_ma60_pct": -31.74,
-          "ma20_slope_20d_pct": -18.82,
-          "ma60_slope_20d_pct": -11.19,
-          "realized_volatility_20d_pct": 66.67,
+          "close": 650.18,
+          "moving_average_50": 916.29,
+          "moving_average_200": 997.7,
+          "moving_average_20": 780.53,
+          "moving_average_60": 960.68,
+          "distance_from_ma20_pct": -16.7,
+          "distance_from_ma60_pct": -32.32,
+          "ma20_slope_20d_pct": -18.85,
+          "ma60_slope_20d_pct": -11.2,
+          "realized_volatility_20d_pct": 66.62,
           "volatility_score": 0,
-          "return_3_months_pct": -46.52,
-          "return_6_months_pct": -32.42,
+          "return_3_months_pct": -46.98,
+          "return_6_months_pct": -33.0,
           "score": 0,
           "status": "강한 하락"
         }
       ],
       "valuation": {
         "available": true,
-        "generated_at": "2026-07-30T11:36:05.109942+09:00",
+        "generated_at": "2026-07-30T11:59:44.505340+09:00",
         "markets": {
           "kospi200": {
             "index_key": "kospi200",
-            "kis_forward_per": 4.46,
-            "kis_coverage_pct": 74.04,
+            "kis_forward_per": 4.47,
+            "kis_coverage_pct": 74.21,
             "external_forward_per": null,
             "external_as_of": null,
             "external_source": null,
             "similarity_pct": null,
-            "final_forward_per": 4.46,
+            "final_forward_per": 4.47,
             "method": "KIS_ONLY",
             "confidence": "보통",
             "note": "외부 12M Forward PER 미등록"
           },
           "kosdaq150": {
             "index_key": "kosdaq150",
-            "kis_forward_per": 23.4,
-            "kis_coverage_pct": 22.35,
+            "kis_forward_per": 23.08,
+            "kis_coverage_pct": 22.32,
             "external_forward_per": null,
             "external_as_of": null,
             "external_source": null,
@@ -80,7 +80,7 @@
       },
       "sentiment": {
         "available": true,
-        "generated_at": "2026-07-30T11:36:18.806569+09:00",
+        "generated_at": "2026-07-30T12:00:02.104526+09:00",
         "overall_score": 26,
         "overall_status": "극단적 불안",
         "markets": [
@@ -102,7 +102,7 @@
             "flow_history_days": 20,
             "daily_return_score": 0,
             "daily_return_pct": -5.98,
-            "realized_volatility_20d_pct": 83.02,
+            "realized_volatility_20d_pct": 82.51,
             "volatility_score": 0
           },
           {
@@ -123,7 +123,7 @@
             "flow_history_days": 20,
             "daily_return_score": 0,
             "daily_return_pct": -6.12,
-            "realized_volatility_20d_pct": 66.67,
+            "realized_volatility_20d_pct": 66.62,
             "volatility_score": 0
           }
         ],
@@ -145,7 +145,88 @@
           }
         },
         "method": "시장 폭 35% · 중기 수급 30% · 20일 변동성 20% · 신용·예탁금 15%"
-      }
+      },
+      "suitability": {
+        "score": 33,
+        "status": "부적합",
+        "horizon": "3~6개월",
+        "method": "추세 40% · 밸류에이션 30% · 센티먼트 30%",
+        "markets": {
+          "kospi": {
+            "score": 41,
+            "status": "부적합",
+            "trend_score": 30,
+            "valuation_score": 80,
+            "sentiment_score": 18,
+            "confidence": "높음"
+          },
+          "kosdaq": {
+            "score": 15,
+            "status": "매우 부적합",
+            "trend_score": 0,
+            "valuation_score": null,
+            "sentiment_score": 34,
+            "confidence": "보통"
+          }
+        }
+      },
+      "kodex_top5": [
+        {
+          "rank": 1,
+          "code": "488770",
+          "name": "KODEX 머니마켓액티브",
+          "asset": "defensive",
+          "market": "korea",
+          "score": 68,
+          "momentum_20d_pct": 0.3,
+          "volatility_20d_pct": 0.16,
+          "reason": "주식시장 불안 시 방어력이 높은 현금·채권형"
+        },
+        {
+          "rank": 2,
+          "code": "423160",
+          "name": "KODEX KOFR금리액티브(합성)",
+          "asset": "defensive",
+          "market": "korea",
+          "score": 68,
+          "momentum_20d_pct": 0.2,
+          "volatility_20d_pct": 0.13,
+          "reason": "주식시장 불안 시 방어력이 높은 현금·채권형"
+        },
+        {
+          "rank": 3,
+          "code": "273130",
+          "name": "KODEX 종합채권(AA-이상)액티브",
+          "asset": "defensive",
+          "market": "korea",
+          "score": 67,
+          "momentum_20d_pct": -0.43,
+          "volatility_20d_pct": 3.83,
+          "reason": "주식시장 불안 시 방어력이 높은 현금·채권형"
+        },
+        {
+          "rank": 4,
+          "code": "091170",
+          "name": "KODEX 은행",
+          "asset": "equity",
+          "market": "kospi",
+          "score": 41,
+          "momentum_20d_pct": 3.03,
+          "volatility_20d_pct": 40.44,
+          "reason": "KOSPI 환경과 최근 20일 가격 흐름 반영"
+        },
+        {
+          "rank": 5,
+          "code": "091180",
+          "name": "KODEX 자동차",
+          "asset": "equity",
+          "market": "kospi",
+          "score": 25,
+          "momentum_20d_pct": -15.09,
+          "volatility_20d_pct": 59.2,
+          "reason": "KOSPI 환경과 최근 20일 가격 흐름 반영"
+        }
+      ]
     }
   },
   "coming_soon": {

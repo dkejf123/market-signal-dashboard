@@ -258,10 +258,14 @@
 
     <section class="index-grid" id="index-grid" aria-label="시장별 추세"></section>
 
+    <section class="valuation-grid" id="suitability-grid" aria-label="한국시장 최종 투자 적합도"></section>
+
     <section class="valuation-grid" id="valuation-grid" aria-label="대표지수 밸류에이션"></section>
 
     <section class="sentiment-grid" id="sentiment-grid" aria-label="한국시장 센티먼트"></section>
     <section class="sentiment-grid" id="supplementary-grid" aria-label="센티먼트 추가지표"></section>
+
+    <section class="valuation-grid" id="kodex-grid" aria-label="KODEX ETF TOP 5"></section>
     <aside class="method-note" aria-label="수급 지표 정의">
       <strong>수급 지표 정의</strong><br>
       수급은 외국인 순매수 금액과 기관 순매수 금액을 합친 값입니다.
@@ -393,6 +397,49 @@
       return fundsCard;
     }
 
+    function suitabilityCards(item) {
+      if (!item || item.score === undefined) return "";
+      const marketNames = { kospi: "KOSPI", kosdaq: "KOSDAQ" };
+      const detailCards = Object.entries(item.markets || {}).map(([key, market]) => `
+        <article class="card valuation-card">
+          <div class="index-head">
+            <div><span class="label">3~6개월 투자 적합도</span><h2 class="valuation-title">${marketNames[key] || key}</h2></div>
+            <span class="badge">${market.score}점 · ${market.status}</span>
+          </div>
+          <div class="metrics">
+            <div class="metric"><span class="label">추세</span><strong>${valueOrDash(market.trend_score, "점")}</strong></div>
+            <div class="metric"><span class="label">밸류에이션</span><strong>${valueOrDash(market.valuation_score, "점")}</strong></div>
+            <div class="metric"><span class="label">센티먼트</span><strong>${valueOrDash(market.sentiment_score, "점")}</strong></div>
+            <div class="metric"><span class="label">데이터 신뢰도</span><strong>${market.confidence}</strong></div>
+          </div>
+        </article>`).join("");
+      return `
+        <article class="card valuation-card">
+          <div class="index-head">
+            <div><span class="label">한국시장 최종 판단</span><h2 class="valuation-title">${item.status}</h2></div>
+            <span class="badge">${item.horizon}</span>
+          </div>
+          <div class="valuation-value" style="color:${toneFor(item.score)}">${item.score}점</div>
+          <p class="valuation-note">${item.method}</p>
+        </article>` + detailCards;
+    }
+
+    function kodexCards(items) {
+      if (!items.length) return "";
+      return items.map(item => `
+        <article class="card valuation-card">
+          <div class="index-head">
+            <div><span class="label">KODEX TOP ${item.rank} · ${item.code}</span><h2 class="valuation-title">${item.name}</h2></div>
+            <span class="badge">${item.score}점</span>
+          </div>
+          <div class="metrics">
+            <div class="metric"><span class="label">20일 모멘텀</span><strong>${signed(item.momentum_20d_pct)}</strong></div>
+            <div class="metric"><span class="label">20일 변동성</span><strong>${fmt.format(item.volatility_20d_pct)}%</strong></div>
+          </div>
+          <p class="valuation-note">${item.reason}</p>
+        </article>`).join("");
+    }
+
     fetch("./data/dashboard.json", { cache: "no-store" })
       .then(response => {
         if (!response.ok) throw new Error("대시보드 데이터가 아직 생성되지 않았습니다.");
@@ -400,17 +447,23 @@
       })
       .then(data => {
         const korea = data.market.korea;
+        const finalSignal = korea.suitability || {
+          score: korea.trend_score,
+          status: korea.status
+        };
         document.getElementById("updated").textContent =
           `마지막 갱신 · ${new Date(data.updated_at).toLocaleString("ko-KR")}`;
-        document.getElementById("korea-status").textContent = korea.status;
-        document.getElementById("korea-score").textContent = korea.trend_score;
+        document.getElementById("korea-status").textContent = finalSignal.status;
+        document.getElementById("korea-score").textContent = finalSignal.score;
         const ring = document.getElementById("score-ring");
-        ring.style.setProperty("--score", korea.trend_score);
-        ring.style.setProperty("--tone", toneFor(korea.trend_score));
+        ring.style.setProperty("--score", finalSignal.score);
+        ring.style.setProperty("--tone", toneFor(finalSignal.score));
         document.getElementById("korea-summary").textContent =
-          `KOSPI와 KOSDAQ의 이동평균 및 3·6개월 수익률을 종합한 추세 점수입니다.`;
+          `추세·밸류에이션·센티먼트를 결합한 3~6개월 투자 적합도입니다.`;
         document.getElementById("index-grid").innerHTML =
           korea.indexes.map(indexCard).join("");
+        document.getElementById("suitability-grid").innerHTML =
+          suitabilityCards(korea.suitability || {});
         const valuation = korea.valuation || {};
         const valuationItems = Object.entries(valuation.markets || {});
         document.getElementById("valuation-grid").innerHTML =
@@ -420,6 +473,8 @@
           (sentiment.markets || []).map(sentimentCard).join("");
         document.getElementById("supplementary-grid").innerHTML =
           supplementaryCards(sentiment.supplementary || {});
+        document.getElementById("kodex-grid").innerHTML =
+          kodexCards(korea.kodex_top5 || []);
       })
       .catch(error => {
         const box = document.getElementById("error");
