@@ -277,7 +277,8 @@
       이격도는 현재 지수가 20일·60일 이동평균에서 얼마나 떨어져 있는지를 나타냅니다.
       이동평균선의 배열과 20거래일간 기울기는 중기 추세 점수에 반영하며,
       변동성은 센티먼트 점수에 반영해 같은 신호가 중복 계산되지 않도록 했습니다.
-      센티먼트는 시장 폭 35%, 중기 수급 35%, 변동성 30%로 계산합니다.
+      센티먼트는 시장 폭 35%, 중기 수급 30%, 변동성 20%,
+      신용·예탁금 15%로 계산합니다.
     </aside>
 
     <section class="future-grid" aria-label="추가 예정 분석">
@@ -375,7 +376,6 @@
 
     function supplementaryCards(supplementary) {
       const funds = supplementary.market_funds || {};
-      const pcr = supplementary.option_pcr || {};
       const fundsCard = funds.available ? `
         <article class="card sentiment-card">
           <div class="index-head">
@@ -390,22 +390,7 @@
           </div>
           <p class="valuation-note">기준일 ${funds.as_of} · ${funds.history_days}일 자료 사용</p>
         </article>` : "";
-      const pcrCard = pcr.available ? `
-        <article class="card sentiment-card">
-          <div class="index-head">
-            <div><span class="label">옵션시장 쏠림</span><h2 class="valuation-title">ATM 풋·콜 비율</h2></div>
-            <span class="badge">${pcr.score}점 · 신뢰도 ${pcr.confidence}</span>
-          </div>
-          <div class="valuation-value">${fmt.format(pcr.pcr_open_interest)}</div>
-          <div class="metrics">
-            <div class="metric"><span class="label">콜 미결제약정</span><strong>${fmt.format(pcr.call_open_interest)}</strong></div>
-            <div class="metric"><span class="label">풋 미결제약정</span><strong>${fmt.format(pcr.put_open_interest)}</strong></div>
-            <div class="metric"><span class="label">사용 행사가</span><strong>${pcr.strike_rows_used}개</strong></div>
-            <div class="metric"><span class="label">옵션 월물</span><strong>${pcr.expiry || "-"}</strong></div>
-          </div>
-          <p class="valuation-note">${pcr.note}</p>
-        </article>` : "";
-      return fundsCard + pcrCard;
+      return fundsCard;
     }
 
     fetch("./data/dashboard.json", { cache: "no-store" })
