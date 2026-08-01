@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "updated_at": "2026-08-01T22:39+09:00",
+  "markets": {
+    "0001": {
+      "name": "KOSPI",
+      "observations": [
+        {
+          "date": "20260731",
+          "advance_ratio_pct": 84.71
+        }
+      ]
+    },
+    "1001": {
+      "name": "KOSDAQ",
+      "observations": [
+        {
+          "date": "20260731",
+          "advance_ratio_pct": 90.18
+        }
+      ]
+    }
+  }
+}

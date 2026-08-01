@@ -241,9 +241,7 @@
       <article class="card">
         <div class="head"><div><span class="label">위험선호</span><h3>시장 폭·VIX</h3></div></div>
         <div class="metrics">
-          <div class="metric"><span>시장 폭</span><strong>${contribution(breadth.score,25)}</strong></div>
           <div class="metric"><span>상승 종목 비율</span><strong>${breadthText}</strong></div>
-          <div class="metric"><span>VIX 위험선호</span><strong>${contribution((sentiment.vix||{}).score,20)}</strong></div>
           <div class="metric"><span>VIX 지수</span><strong>${value((sentiment.vix||{}).value)}</strong></div>
         </div>
         ${breadth.note ? `<p class="note">${breadth.note}</p>` : ""}
@@ -251,12 +249,9 @@
       <article class="card">
         <div class="head"><div><span class="label">신용·금융여건</span><h3>시스템 위험</h3></div></div>
         <div class="metrics">
-          <div class="metric"><span>신용 스프레드</span><strong>${contribution(credit.score,25)}</strong></div>
           <div class="metric"><span>하이일드 스프레드</span><strong>${value(((credit.high_yield_spread)||{}).value,"%")}</strong></div>
           <div class="metric"><span>투자등급 스프레드</span><strong>${value(((credit.investment_grade_spread)||{}).value,"%")}</strong></div>
-          <div class="metric"><span>금융여건(NFCI)</span><strong>${contribution(financial.score,20)}</strong></div>
           <div class="metric"><span>NFCI 지수</span><strong>${value(financial.value)}</strong></div>
-          <div class="metric"><span>금리 환경</span><strong>${contribution(rates.score,10)}</strong></div>
           <div class="metric"><span>10년 실질금리</span><strong>${value(((rates.real_yield_10y)||{}).value,"%")}</strong></div>
           <div class="metric"><span>10Y-2Y 금리차</span><strong>${value(((rates.yield_curve_10y_2y)||{}).value,"%p")}</strong></div>
         </div>
@@ -295,11 +290,13 @@
 
   function personalCard(item) {
     return `<article class="card">
-      <div class="head"><div><span class="label">${item.code}</span><h3>${item.name}</h3></div><span class="badge">${item.personal_adjusted_score}점</span></div>
+      <div class="head"><div><span class="label">${item.code}</span><h3>${item.name}</h3></div><span class="badge">반영 종합 ${item.personal_adjusted_score}점</span></div>
       <div class="metrics">
         <div class="metric"><span>20일 개인 순매수</span><strong>${value(item.personal_net_buy_20d_million,"백만원")}</strong></div>
         <div class="metric"><span>순자산 대비 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
         <div class="metric"><span>순자산</span><strong>${value(item.net_assets_100m,"억원")}</strong></div>
+        <div class="metric"><span>순수 개인수급 강도</span><strong>${value(item.personal_flow_score,"점")}</strong></div>
+        <div class="metric"><span>기존 ETF 적합도</span><strong>${value(item.score,"점")}</strong></div>
       </div>
       ${reasonList(item)}
     </article>`;
@@ -336,9 +333,9 @@
   }
 
   function audit(items,summary) {
-    const rows=items.map((x,i)=>`<tr><td>${i+1}</td><td>${x.code}</td><td>${x.name}</td><td>${x.selection_status||"미선정"}</td><td>${x.score}</td><td>${x.contrarian_score}</td><td>${x.personal_adjusted_score??"-"}</td><td>${signed(x.momentum_20d_pct)}</td><td>${signed(x.momentum_60d_pct)}</td><td>${value(x.rsi_14)}</td><td>${x.selection_reason||"-"}</td></tr>`).join("");
+    const rows=items.map((x,i)=>{const sold=(x.personal_net_buy_20d_million??0)<=0||(x.personal_net_buy_ratio_20d_pct??0)<=0;return `<tr><td>${i+1}</td><td>${x.code}</td><td>${x.name}</td><td>${x.selection_status||"미선정"}</td><td>${x.score}</td><td>${x.contrarian_score}</td><td>${x.personal_flow_score==null?"-":(sold?"0 (순매도 제외)":x.personal_flow_score)}</td><td>${x.personal_adjusted_score==null?"-":(sold?"0 (순매도 제외)":x.personal_adjusted_score)}</td><td>${signed(x.momentum_20d_pct)}</td><td>${signed(x.momentum_60d_pct)}</td><td>${value(x.rsi_14)}</td><td>${x.selection_reason||"-"}</td></tr>`}).join("");
     return `<div class="table-wrap"><p class="note">등록 ${summary.registered_count||0}개 · 평가 ${summary.evaluated_count||0}개 · 실패 ${summary.failed_count||0}개<br>${summary.filter||""}</p>
-      <table><thead><tr><th>#</th><th>코드</th><th>ETF</th><th>상태</th><th>적합도</th><th>역발상</th><th>개인수급</th><th>20일</th><th>60일</th><th>RSI</th><th>선정·탈락 사유</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+      <table><thead><tr><th>#</th><th>코드</th><th>ETF</th><th>상태</th><th>적합도</th><th>역발상</th><th>개인수급 강도</th><th>개인수급 반영 종합</th><th>20일</th><th>60일</th><th>RSI</th><th>선정·탈락 사유</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   }
 
   fetch("./data/dashboard.json",{cache:"no-store"}).then(r=>{

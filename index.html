@@ -393,7 +393,6 @@
             <div><span class="label">KOSDAQ/KOSPI</span><h2 class="valuation-title">KOSDAQ 상대강도</h2></div>
             <span class="badge">${item.status}</span>
           </div>
-          <div class="valuation-value">${contribution(item.score, 30)}</div>
           <div class="metrics">
             <div class="metric"><span class="label">20일 상대수익률</span><strong>${signed(item.return_20d_pct)}</strong></div>
             <div class="metric"><span class="label">60일 상대수익률</span><strong>${signed(item.return_60d_pct)}</strong></div>
@@ -408,19 +407,21 @@
       return `
         <article class="card sentiment-card">
           <div class="index-head">
-            <div><span class="label">전일 시장 심리</span><h2 class="valuation-title">${item.name}</h2></div>
+            <div><span class="label">전일 마감 기준 중기 심리</span><h2 class="valuation-title">${item.name}</h2></div>
             <span class="badge">${item.score}/100점 · ${item.status}</span>
           </div>
           <div class="valuation-value" style="color:${tone}">${item.score}점</div>
           <div class="metrics">
-            <div class="metric"><span class="label">상승 종목 비율</span><strong>${valueOrDash(item.advance_ratio_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">상승 종목 비율 1일</span><strong>${valueOrDash(item.advance_ratio_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">상승 종목 비율 5일 평균</span><strong>${valueOrDash(item.advance_ratio_5d_pct, "%")}</strong></div>
+            <div class="metric"><span class="label">상승 종목 비율 20일 평균</span><strong>${valueOrDash(item.advance_ratio_20d_pct, "%")}</strong></div>
             <div class="metric"><span class="label">전일 수급 비율</span><strong>${signed(item.smart_money_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">5일 평균 수급</span><strong>${signed(item.smart_money_5d_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">20일 평균 수급</span><strong>${signed(item.smart_money_20d_ratio_pct)}</strong></div>
             <div class="metric"><span class="label">20일 실현 변동성</span><strong>${valueOrDash(item.realized_volatility_20d_pct, "%")}</strong></div>
             <div class="metric"><span class="label">전일 등락률</span><strong>${signed(item.daily_return_pct)}</strong></div>
           </div>
-          <p class="valuation-note">기준일 ${item.trading_date} · 수급 ${item.flow_history_days}거래일 사용 · 신뢰도 ${item.confidence}</p>
+          <p class="valuation-note">기준일 ${item.trading_date} · 시장 폭 ${item.breadth_history_days || 0}거래일(${item.breadth_confidence || item.confidence}) · 수급 ${item.flow_history_days}거래일</p>
         </article>`;
     }
 
@@ -430,7 +431,7 @@
         <article class="card sentiment-card">
           <div class="index-head">
             <div><span class="label">증시 유동성·레버리지</span><h2 class="valuation-title">신용·예탁금</h2></div>
-            <span class="badge">${contribution(funds.score, 15)} · ${funds.confidence}</span>
+            <span class="badge">${funds.confidence}</span>
           </div>
           <div class="metrics">
             <div class="metric"><span class="label">고객예탁금 5일 / 20일</span><strong>${signed(funds.deposit_5d_change_pct)} / ${signed(funds.deposit_20d_change_pct)}</strong></div>
@@ -465,7 +466,7 @@
         <article class="card sentiment-card">
           <div class="index-head">
             <div><span class="label">한투 API · 센티먼트 10점 반영</span><h2 class="valuation-title">한국 주식형 ETF 참여도</h2></div>
-            <span class="badge">${contribution(participation.score, 10)} · ${participation.signal || "중립"}</span>
+            <span class="badge">${participation.signal || "중립"}</span>
           </div>
           <div class="metrics">
             <div class="metric"><span class="label">20일선 상회 비율</span><strong>${valueOrDash(participation.above_ma20_ratio_pct, "%")}</strong></div>
@@ -545,7 +546,8 @@
           <td class="${statusClass(item.selection_status || "")}">${item.selection_status || "미선정"}</td>
           <td>${item.score}</td>
           <td>${item.contrarian_score}</td>
-          <td>${item.personal_adjusted_score ?? "-"}</td>
+          <td>${item.personal_flow_score == null ? "-" : ((item.personal_net_buy_20d_million ?? 0) <= 0 || (item.personal_net_buy_ratio_20d_pct ?? 0) <= 0 ? "0 (순매도 제외)" : item.personal_flow_score)}</td>
+          <td>${item.personal_adjusted_score == null ? "-" : ((item.personal_net_buy_20d_million ?? 0) <= 0 || (item.personal_net_buy_ratio_20d_pct ?? 0) <= 0 ? "0 (순매도 제외)" : item.personal_adjusted_score)}</td>
           <td>${item.personal_net_buy_ratio_20d_pct == null ? "-" : signed(item.personal_net_buy_ratio_20d_pct)}</td>
           <td>${signed(item.return_5d_pct)}</td>
           <td>${signed(item.momentum_20d_pct)}</td>
@@ -560,7 +562,7 @@
           <td>${item.code}</td>
           <td>${item.name}</td>
           <td>평가 불가</td>
-          <td>—</td><td>—</td><td>—</td><td>—</td>
+          <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
           <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
           <td>${item.reason || "가격·수급 자료 부족"}</td>
         </tr>`).join("");
@@ -578,7 +580,7 @@
         <div class="table-wrap"><table class="audit-table">
           <thead><tr>
             <th>#</th><th>코드</th><th>ETF</th><th>상태</th>
-            <th>현재점수</th><th>역발상</th><th>개인수급점수</th><th>순자산대비 개인</th><th>5일</th><th>20일</th>
+            <th>현재점수</th><th>역발상</th><th>개인수급 강도</th><th>개인수급 반영 종합</th><th>순자산대비 개인</th><th>5일</th><th>20일</th>
             <th>60일</th><th>고점대비</th><th>RSI</th><th>선정·탈락 사유</th>
           </tr></thead>
           <tbody>${evaluatedRows}${failedRows}</tbody>
@@ -591,12 +593,14 @@
         <article class="card valuation-card">
           <div class="index-head">
             <div><span class="label">개인수급 TOP ${item.rank} · ${item.code}</span><h2 class="valuation-title">${item.name}</h2></div>
-            <span class="badge">${item.personal_adjusted_score}점</span>
+            <span class="badge">반영 종합 ${item.personal_adjusted_score}점</span>
           </div>
           <div class="metrics">
             <div class="metric"><span class="label">20일 개인 순매수</span><strong>${fmt.format(item.personal_net_buy_20d_million)}백만원</strong></div>
             <div class="metric"><span class="label">순자산 대비 20일 개인순매수</span><strong>${signed(item.personal_net_buy_ratio_20d_pct)}</strong></div>
             <div class="metric"><span class="label">ETF 순자산</span><strong>${fmt.format(item.net_assets_100m)}억원</strong></div>
+            <div class="metric"><span class="label">순수 개인수급 강도</span><strong>${item.personal_flow_score}점</strong></div>
+            <div class="metric"><span class="label">기존 ETF 적합도</span><strong>${item.score}점</strong></div>
           </div>
           <div class="keyword-list">${(item.keywords || []).map(keyword => `<span class="keyword">#${keyword}</span>`).join("")}</div>
           ${reasonList(item)}

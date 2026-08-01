@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-01T21:47+09:00",
+  "updated_at": "2026-08-01T22:56+09:00",
   "market": {
     "korea": {
       "status": "강한 하락",
@@ -48,7 +48,7 @@
       ],
       "valuation": {
         "available": true,
-        "generated_at": "2026-08-01T21:28:30.596622+09:00",
+        "generated_at": "2026-08-01T22:38:38.097201+09:00",
         "markets": {
           "kospi200": {
             "index_key": "kospi200",
@@ -80,7 +80,7 @@
       },
       "sentiment": {
         "available": true,
-        "generated_at": "2026-08-01T21:29:53.025876+09:00",
+        "generated_at": "2026-08-01T22:39:57.816876+09:00",
         "overall_score": 54,
         "overall_status": "중립",
         "markets": [
@@ -90,9 +90,13 @@
             "trading_date": "20260731",
             "score": 53,
             "status": "중립",
-            "confidence": "높음",
+            "confidence": "낮음",
             "breadth_score": 100,
             "advance_ratio_pct": 84.71,
+            "advance_ratio_5d_pct": null,
+            "advance_ratio_20d_pct": null,
+            "breadth_history_days": 1,
+            "breadth_confidence": "낮음",
             "flow_score": 81,
             "foreign_net_buy": 7240983.0,
             "institution_net_buy": 1150288.0,
@@ -112,9 +116,13 @@
             "trading_date": "20260731",
             "score": 54,
             "status": "중립",
-            "confidence": "높음",
+            "confidence": "낮음",
             "breadth_score": 100,
             "advance_ratio_pct": 90.18,
+            "advance_ratio_5d_pct": null,
+            "advance_ratio_20d_pct": null,
+            "breadth_history_days": 1,
+            "breadth_confidence": "낮음",
             "flow_score": 84,
             "foreign_net_buy": 169667.0,
             "institution_net_buy": 298509.0,
@@ -260,7 +268,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 34,
+          "personal_adjusted_score": 0,
           "reason_bullets": [
             "한국 시장환경 점수 46점으로 현재 환경은 중립적입니다. 시장 방향이 뚜렷하지 않아 가격 추세가 유지되는지 확인하면서 선별적으로 접근할 구간입니다.",
             "가격은 20일 +1.09%, 60일 -0.73%이며 20일선·60일선은 각각 하회·상회입니다. 단기·중기 가격 흐름이 모두 약해 추세 회복 확인이 우선입니다.",
@@ -317,7 +325,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 33,
+          "personal_adjusted_score": 0,
           "reason_bullets": [
             "한국 시장환경 점수 46점으로 현재 환경은 중립적입니다. 시장 방향이 뚜렷하지 않아 가격 추세가 유지되는지 확인하면서 선별적으로 접근할 구간입니다.",
             "가격은 20일 +1.64%, 60일 +0.92%이며 20일선·60일선은 각각 하회·상회입니다. 단기·중기 가격 흐름이 모두 약해 추세 회복 확인이 우선입니다.",
@@ -374,7 +382,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 32,
+          "personal_adjusted_score": 0,
           "reason_bullets": [
             "한국 시장환경 점수 46점으로 현재 환경은 중립적입니다. 시장 방향이 뚜렷하지 않아 가격 추세가 유지되는지 확인하면서 선별적으로 접근할 구간입니다.",
             "가격은 20일 +2.17%, 60일 -1.93%이며 20일선·60일선은 각각 하회·상회입니다. 단기·중기 가격 흐름이 모두 약해 추세 회복 확인이 우선입니다.",
@@ -431,7 +439,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 19,
+          "personal_adjusted_score": 0,
           "reason_bullets": [
             "60일 고점 대비 -26.43% 하락해 가격 낙폭이 커진 구간입니다. 낙폭이 매우 커 가격 매력과 추가 하락 위험이 동시에 큰 구간입니다.",
             "최근 5일 수익률이 +2.91%로 반등했고 RSI(14)는 43.9입니다. 매도 압력이 완화되는지 추가 확인이 필요합니다.",
@@ -718,7 +726,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 34,
+          "personal_adjusted_score": 0,
           "selection_status": "현재 적합형 선정",
           "selection_reason": "현재 적합도 상위 3개"
         },
@@ -770,7 +778,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 33,
+          "personal_adjusted_score": 0,
           "selection_status": "현재 적합형 선정",
           "selection_reason": "현재 적합도 상위 3개"
         },
@@ -822,7 +830,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 32,
+          "personal_adjusted_score": 0,
           "selection_status": "현재 적합형 선정",
           "selection_reason": "현재 적합도 상위 3개"
         },
@@ -874,7 +882,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 31,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -926,7 +934,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 29,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족 / 역발상: RSI 조건 미충족"
         },
@@ -978,7 +986,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 27,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족"
         },
@@ -1030,7 +1038,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 26,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족"
         },
@@ -1082,7 +1090,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 커버드콜 제외"
         },
@@ -1134,7 +1142,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -1186,7 +1194,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 22,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: RSI 조건 미충족"
         },
@@ -1290,7 +1298,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 22,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -1342,7 +1350,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 22,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -1394,7 +1402,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 21,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 점수 TOP2 밖"
         },
@@ -1446,7 +1454,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 21,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 점수 TOP2 밖"
         },
@@ -1602,7 +1610,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 20,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -1654,7 +1662,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 20,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 점수 TOP2 밖"
         },
@@ -1706,7 +1714,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 20,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -1758,7 +1766,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 20,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -1966,7 +1974,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 19,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 점수 TOP2 밖"
         },
@@ -2070,7 +2078,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 19,
+          "personal_adjusted_score": 0,
           "selection_status": "역발상 선정",
           "selection_reason": "역발상 안전조건 통과 후 점수 상위 2개 이내"
         },
@@ -2226,7 +2234,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 18,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -2278,7 +2286,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 18,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 점수 TOP2 밖"
         },
@@ -2486,7 +2494,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 18,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -2538,7 +2546,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 18,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -2590,7 +2598,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 17,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -2642,7 +2650,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 17,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 점수 TOP2 밖"
         },
@@ -2694,7 +2702,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 16,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -2798,7 +2806,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 16,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -2850,7 +2858,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 16,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -2902,7 +2910,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 16,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -2954,7 +2962,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -3006,7 +3014,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -3058,7 +3066,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -3110,7 +3118,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -3162,7 +3170,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -3214,7 +3222,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 14,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 점수 TOP2 밖"
         },
@@ -3318,7 +3326,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 13,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -3526,7 +3534,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 11,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -3682,7 +3690,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -3786,7 +3794,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -3994,7 +4002,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -4098,7 +4106,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -4150,7 +4158,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -4202,7 +4210,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -4410,7 +4418,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -4514,7 +4522,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -4618,7 +4626,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -4670,7 +4678,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족"
         },
@@ -4722,7 +4730,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 10,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족"
         },
@@ -4890,7 +4898,7 @@
         "current_selected_count": 3,
         "contrarian_selected_count": 2,
         "personal_flow_selected_count": 3,
-        "personal_flow_available_count": 81,
+        "personal_flow_available_count": 32,
         "failures": [
           {
             "code": "0219E0",
@@ -4905,7 +4913,7 @@
     },
     "united_states": {
       "available": true,
-      "generated_at": "2026-08-01T21:31+09:00",
+      "generated_at": "2026-08-01T22:41+09:00",
       "status": "적합",
       "preliminary_score": 74,
       "summary_bullets": [
@@ -5129,7 +5137,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 51,
+          "personal_adjusted_score": 0,
           "reason_bullets": [
             "미국 시장환경 점수 74점으로 현재 환경은 우호적입니다. 시장 환경과 상품의 가격 흐름이 함께 뒷받침되는 후보인지 확인할 수 있는 구간입니다.",
             "가격은 20일 +1.83%, 60일 +4.86%이며 20일선·60일선은 각각 상회·상회입니다. 단기와 중기 추세가 모두 살아 있는 흐름입니다.",
@@ -5300,7 +5308,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "reason_bullets": [
             "60일 고점 대비 -21.72% 하락해 가격 낙폭이 커진 구간입니다. 고점 대비 조정이 누적돼 반등 가능성을 관찰할 구간입니다.",
             "최근 5일 수익률이 +4.78%로 반등했고 RSI(14)는 34.4입니다. 매도 압력이 완화되는지 추가 확인이 필요합니다.",
@@ -5357,7 +5365,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 13,
+          "personal_adjusted_score": 0,
           "reason_bullets": [
             "60일 고점 대비 -16.17% 하락해 가격 낙폭이 커진 구간입니다. 고점 대비 조정이 누적돼 반등 가능성을 관찰할 구간입니다.",
             "최근 5일 수익률이 +1.16%로 반등했고 RSI(14)는 42.1입니다. 매도 압력이 완화되는지 추가 확인이 필요합니다.",
@@ -5587,7 +5595,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 51,
+          "personal_adjusted_score": 0,
           "selection_status": "현재 적합 선정",
           "selection_reason": "현재 적합 점수 상위 3개"
         },
@@ -5743,7 +5751,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 43,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 60일 낙폭 부족"
         },
@@ -5795,7 +5803,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 43,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 60일 낙폭 부족"
         },
@@ -5847,7 +5855,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 42,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 60일 낙폭 부족 / 역발상: RSI 조건 미충족 / 역발상: 5·10일선 미회복"
         },
@@ -5899,7 +5907,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 42,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 60일 낙폭 부족 / 역발상: 5·10일선 미회복"
         },
@@ -5951,7 +5959,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 41,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 20일 낙폭 조건 미충족 / 역발상: 60일 낙폭 부족 / 역발상: RSI 조건 미충족"
         },
@@ -6003,7 +6011,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 39,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음 / 역발상: 60일 낙폭 부족 / 역발상: 5·10일선 미회복"
         },
@@ -6055,7 +6063,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 36,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족 / 역발상: RSI 조건 미충족 / 역발상: 5·10일선 미회복"
         },
@@ -6107,7 +6115,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 36,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 20일 낙폭 조건 미충족 / 역발상: 60일 낙폭 부족"
         },
@@ -6263,7 +6271,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 35,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음 / 역발상: RSI 조건 미충족"
         },
@@ -6367,7 +6375,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 31,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 60일 낙폭 부족"
         },
@@ -6419,7 +6427,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 31,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 60일 낙폭 부족"
         },
@@ -6523,7 +6531,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 31,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음 / 역발상: 60일 낙폭 부족 / 역발상: 5·10일선 미회복"
         },
@@ -6575,7 +6583,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 31,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음 / 역발상: 60일 낙폭 부족 / 역발상: 5·10일선 미회복"
         },
@@ -6679,7 +6687,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 30,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 커버드콜 제외"
         },
@@ -6939,7 +6947,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 27,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음 / 역발상: 5·10일선 미회복"
         },
@@ -6991,7 +6999,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 27,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖"
         },
@@ -7199,7 +7207,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 25,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖"
         },
@@ -7251,7 +7259,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 25,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖"
         },
@@ -7303,7 +7311,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖"
         },
@@ -7355,7 +7363,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "selection_status": "역발상 선정",
           "selection_reason": "역발상 안전조건 통과 및 점수 상위 2개 이내"
         },
@@ -7563,7 +7571,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -7615,7 +7623,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -7667,7 +7675,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 24,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -7771,7 +7779,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 22,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖 / 역발상: 5일 반등 없음"
         },
@@ -7875,7 +7883,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 22,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -8083,7 +8091,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 20,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖"
         },
@@ -8135,7 +8143,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 20,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖"
         },
@@ -8187,7 +8195,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 19,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 종합점수 TOP3 밖"
         },
@@ -8239,7 +8247,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 19,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -8343,7 +8351,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 18,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -8395,7 +8403,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 18,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음 / 역발상: 5·10일선 미회복"
         },
@@ -8447,7 +8455,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 17,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -8551,7 +8559,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음"
         },
@@ -8603,7 +8611,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족"
         },
@@ -8655,7 +8663,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 15,
+          "personal_adjusted_score": 0,
           "selection_status": "미선정",
           "selection_reason": "현재형: 20일 모멘텀 -10% 이하 / 역발상: 5일 반등 없음 / 역발상: 20일 낙폭 조건 미충족 / 역발상: RSI 조건 미충족 / 역발상: 5·10일선 미회복"
         },
@@ -8707,7 +8715,7 @@
           "personal_amount_score": 0,
           "personal_ratio_score": 0,
           "personal_flow_score": 0,
-          "personal_adjusted_score": 13,
+          "personal_adjusted_score": 0,
           "selection_status": "역발상 선정",
           "selection_reason": "역발상 안전조건 통과 및 점수 상위 2개 이내"
         }
@@ -8719,7 +8727,7 @@
         "current_selected_count": 3,
         "contrarian_selected_count": 2,
         "personal_flow_selected_count": 3,
-        "personal_flow_available_count": 61,
+        "personal_flow_available_count": 24,
         "failures": [
           {
             "code": "0225V0",
