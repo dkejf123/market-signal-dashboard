@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-01T22:39+09:00",
+  "updated_at": "2026-08-03T21:00+09:00",
   "markets": {
     "0001": {
       "name": "KOSPI",
@@ -8,6 +8,10 @@
         {
           "date": "20260731",
           "advance_ratio_pct": 84.71
+        },
+        {
+          "date": "20260803",
+          "advance_ratio_pct": 49.78
         }
       ]
     },
@@ -17,6 +21,10 @@
         {
           "date": "20260731",
           "advance_ratio_pct": 90.18
+        },
+        {
+          "date": "20260803",
+          "advance_ratio_pct": 67.95
         }
       ]
     }
